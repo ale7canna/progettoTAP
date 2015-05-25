@@ -1,0 +1,28 @@
+@CHARSET "ISO-8859-1";
+
+
+div.login {
+	background-color: #ff0000;
+	float: left;
+	top: 10px;
+	width: 50%;
+	height: 100vh;
+	margin:auto;
+	/*margin-right: auto;
+	margin-left: auto;*/
+}
+
+div.search {
+	background-color: #00ff00;
+	float: left;
+	top: 10px;
+	width: 50%;
+	height: 100vh;
+}
+
+div.center {
+	font-size: 15px;
+	margin-top: 50vh;
+	margin-left: 50px;
+	margin-right: auto;
+}

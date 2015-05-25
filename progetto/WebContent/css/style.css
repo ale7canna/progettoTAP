@@ -1,28 +1,88 @@
 @CHARSET "ISO-8859-1";
 
-
-div.login {
-	background-color: #ff0000;
-	float: left;
-	top: 10px;
-	width: 50%;
+div.container {
+	display: table-cell;
+	background-color: #ddddff;
+	width: 100vw;
 	height: 100vh;
-	margin:auto;
-	/*margin-right: auto;
-	margin-left: auto;*/
+	vertical-align: middle;
+	text-align: center;
+	padding: 0 10vw;
 }
 
-div.search {
-	background-color: #00ff00;
-	float: left;
-	top: 10px;
-	width: 50%;
+div.left {
+	display: table-cell;
+	background-color: #ffdddd;
+	width: 40vw;
 	height: 100vh;
+	vertical-align: middle;
+
+}
+
+div.right {
+	display: table-cell;
+	background-color: #ddffdd;
+	width: 40vw;
+	height: 100vh;
+	vertical-align: middle;
 }
 
 div.center {
+	display: table-cell;
 	font-size: 15px;
-	margin-top: 50vh;
-	margin-left: 50px;
-	margin-right: auto;
+	vertical-align: middle;
+	width: 40vw;
+	text-align: center;
+}
+
+div.up {
+	margin-top: 20px;
+}
+
+
+#userList {
+	overflow-y: auto;
+}
+
+
+
+
+
+
+
+
+
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+
+li {
+  font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+  border-bottom: 1px solid #ccc;
+}
+ 
+li:last-child {
+  border: none;
+}
+ 
+li a {
+  text-decoration: none;
+  color: #000;
+  display: block;
+  width: 200px;
+ 
+  -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+  transition: font-size 0.3s ease, background-color 0.3s ease;
+}
+ 
+li a:hover {
+  font-size: 30px;
+  background: #f6f6f6;
 }

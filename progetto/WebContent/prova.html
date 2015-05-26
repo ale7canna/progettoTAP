@@ -3,41 +3,65 @@
 <head>  
 <meta http-equiv="content-type" content="text/html;charset=ISO-8859-1">
 <title>Dead Centre</title>  
-<style type="text/css" media="screen"><!--
 
-div.cn {
-  display: table-cell;
-  width: 500px;
-  height: 500px;
-  vertical-align: middle;
-  text-align: center;
-}
+	<script src="js/jquery-1.11.3.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			
+			$('.toggle').click(function(){		
+    				$(this).closest(".container").find(".espandibile").toggle();
+				});			
+	
+		});
 
-div.inner {
-  display: inline-block;
-  width: 200px;
-  height: 200px;
-  text-align: left;
-}
+		
+	
+	</script>
 
-
---></style>
 </head>
 <body>
 
 
 
-<div class="cn">
-			<div class="inner">
-				<p>Press twitter button to login</p>
-				<img src="resources/sign-in.png" onClick="redirect('/progetto/SignIn')">
-			</div>
+	<div class="container">
+		<img class="toggle" src="resources/plus.png" width="20px">
+		<div class="espandibile">
+			<ul>
+				<li>1</li>
+				<li>2</li>
+				<li>3</li>
+				<li>4</li>
+				<li>5</li>
+				<li>6</li>
+			</ul>
 		</div>
-		<div class="cn">"
-			<h1>Ciao Search</h1>
+	</div>
+	
+	<div class="container">
+		<img class="toggle" src="resources/plus.png" width="20px">
+		<div class="espandibile">
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+			<li>6</li>
 		</div>
-
-
+	</div>
+	
+	<div class="container">
+		<img class="toggle" src="resources/plus.png" width="20px">
+		<div class="espandibile">
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+			<li>6</li>
+		</div>
+	</div>
+	
+	
 
 </body>
 </html>

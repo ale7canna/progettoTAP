@@ -15,6 +15,7 @@
 	<% 	Twitter twitter = (Twitter)session.getAttribute("twitter");
 		AccountSettings as = twitter.getAccountSettings();
 		User user = twitter.showUser(as.getScreenName());
+		session.setAttribute("myUser", user);
 		//IDs ids = twitter.getFollowersIDs(user.getId());
 		IDs i = twitter.getFollowersIDs(user.getId());
 		PagableResponseList<User> ids = twitter.getFollowersList(user.getId(), -1);
@@ -53,29 +54,45 @@
 			</div>
 		</div>
 		<div class="right">
-			<form>
+			<form name="formFollower" method="get" action="follower.jsp">
 				<div id="userList">
-					<table align="center">
+					<table class="users" align="center">
 					<%	
+						int k = 0;
 						for (User u:ids)
 						//long idiesse[] = i.getIDs();
 						//for(int k = 0; k < idiesse.length; k ++)
 						{	
 							//User u = twitter.showUser(idiesse[k]);
-					%>	
-						<tr>
-							<td><input type="checkbox" name="follower" value="<%= u.getScreenName() %>"></td>
+							if (k % 2 == 0)
+								out.println("<tr>");
+					%>
+						
+							<td><input type="checkbox" name="follower" value="<%= u.getId() %>"></td>
 							<td><img src="<%= u.getProfileImageURL() %>"></td>
-							<td><p class="userName"><%=u.getName()%></p></td>
-						</tr>
+							<td class="nomeUtente"><span><%=u.getName()%></span></td>
 					
-					<%
+					<%		
+							if (k % 2 == 1)
+								out.println("</tr>");
+							k++;		
 						}
 					%>
 					</table>
+					<table align="center">
+						<tr>
+							<td>
+								<a class="aqua-button" onclick="formFollower.submit()">
+									<span class="shine"></span>
+									<span class="glow"></span>
+									Invia tuoi Follower
+								</a>
+							</td>
+						</tr>
+					</table>
 				</div>
 			</form>
-		</div>
+		</div> 
 		
 	</div>
 </body>

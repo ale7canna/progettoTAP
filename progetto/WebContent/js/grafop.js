@@ -39,7 +39,7 @@ function disegnaGrafo(){
 	      }),
 	        
 	    layout: {
-				    name: 'breadthfirst',
+				    name: 'concentric',
 				    directed: true,
 				    padding: 10
 				  }
@@ -77,7 +77,7 @@ function disegnaGrafo(){
     });
 
 
-}; // on dom ready/**
+}; 
 
 
 function addNodeToGraph(id, url)
@@ -98,7 +98,7 @@ function addEdge(idSource, idTarget)
 	
 	
 	
-}
+};
 
 function aggiornaLayout()
 {
@@ -106,31 +106,44 @@ function aggiornaLayout()
 		  name: 'concentric'
 		});
 
-	//layout.run();
-		
-		
-  var eles = cy.elements();
-  for (var k = 0; k < eles.length; k++) {
-	  var e = eles[k];
-	  $(e).qtip(
-			  {
-				  content: 'Ciao Ciao',
-				  position: {
-					    my: 'top center',
-					    at: 'bottom center'
-					  },
-					  style: {
-					    classes: 'qtip-bootstrap',
-					    tip: {
-					      width: 16,
-					      height: 8
-					    }
-					  }
-				  
-			  }
+	layout.run();
+	
+			// a) Degree centrality
+	var dcn = cy.elements().dcn(); 		// b) Degree centrality normalized
+	var bc  = cy.elements().bc(); 		// c) Betweeness centrality
+	
+	var ccn = cy.elements().ccn(); 		// e) Closeness centrality normalized
+	
+  cy.nodes().forEach(function( ele ){
+	  var dc  = cy.elements().dc({root: '#'+ele.id()}).degree; 
+	  var cc  = cy.elements().cc({root: '#'+ele.id()}); 		// d) Closeness centrality 
+
+	  var content = "Degree centrality: " + dc.toFixed(2).toString() + "<BR>" +
+	  				"Degree centrality normalized: " + dcn.degree('#'+ele.id()).toFixed(2).toString() + "<BR>" +
+	  				"Betweeness centrality: " + bc.betweenness('#'+ele.id()).toFixed(2).toString() + "<BR>" +
+	  				"Closeness centrality: " + cc.toFixed(2).toString() + "<BR>" +
+	  				"Closeness centrality normalized: " + ccn.closeness('#'+ele.id()).toFixed(2).toString();
 	  
-	  );
-		  
-			  
-		  }
-}
+	  cy.$('#'+ele.id()).qtip({
+		  content: content,
+		  position: {
+		    my: 'top center',
+		    at: 'bottom center'
+		  },
+		  style: {
+		    classes: 'qtip-bootstrap',
+		    width: 325,
+		    tip: {
+		      width: 16,
+		      height: 8
+		    }
+		  },
+		  hide: {
+              fixed: true,
+              delay: 300
+          }
+  });
+  });
+  alert("FATTO");
+  
+};

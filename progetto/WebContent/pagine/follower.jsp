@@ -221,22 +221,12 @@
 	</div>
 	
 	<div class="right" style="vertical-align: top;">
-		<a class="aqua-button" onclick="toggleGrafo()">
+		<a class="aqua-button" onclick="mostraGrafo()">
 									<span class="shine"></span>
 									<span class="glow"></span>
-									Invia tuoi Follower
+									Mostra il grafo
 		</a>
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		<a onclick="aggiungi()"> Disegna Grafo</a>
 	</div>
 	<div class="overlay" id="cy">
 	</div>
@@ -259,6 +249,19 @@
 	
 	
 		<script>
+	var disegnato = false;
+
+	function mostraGrafo()
+	{
+		toggleGrafo();
+		if (disegnato == false){
+			aggiungi();
+			disegnato = true;				
+		}
+		
+	}
+
+	
 	function aggiungi(){ 
 			disegnaGrafo();
 			<% 	for(Utente u: listaUtenti) {

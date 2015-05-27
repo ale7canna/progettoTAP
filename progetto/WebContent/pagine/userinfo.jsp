@@ -17,7 +17,7 @@
 		User user = twitter.showUser(as.getScreenName());
 		session.setAttribute("myUser", user);
 		//IDs ids = twitter.getFollowersIDs(user.getId());
-		IDs i = twitter.getFollowersIDs(user.getId());
+		IDs i = twitter.getFollowersIDs(user.getId()); // Dopo twitter.showUser();
 		PagableResponseList<User> ids = twitter.getFollowersList(user.getId(), -1);
 	
 	%>

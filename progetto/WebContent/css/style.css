@@ -43,6 +43,18 @@ div.up {
 	margin-top: 20px;
 }
 
+div.overlay{
+	position:absolute;
+	top: 10vh;
+	left: 20vw;
+	opacity:0.6;
+	padding: 0;
+	width: 60vw;
+	height: 80vh;
+	background-color: #ffffdd;
+	display: none;
+}
+
 table.users td{
 	border-bottom: 1px solid #ccc;
 }
@@ -62,7 +74,6 @@ table.users td.nomeUtente:HOVER{
 input[type=checkbox] {
 	color: #00ff00;
 }
-
 
 
 
@@ -189,4 +200,14 @@ li a:hover {
 	-webkit-border-radius:15px;
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 95%, from(rgba(198, 242, 255, 0.0)), to(rgba(105, 172, 232, 1.0)));
 	border-bottom:1px solid #85c0f6;
+}
+
+
+#eat {
+  position: absolute;
+  left: 1em;
+  top: 1em;
+  font-size: 1em;
+  z-index: -1;
+  color: #f00;
 }

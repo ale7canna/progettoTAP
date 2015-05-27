@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>  
+<meta http-equiv="content-type" content="text/html;charset=ISO-8859-1">
+<title>Dead Centre</title>  
+
+	<script src="js/jquery-1.11.3.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			
+			$('.toggle').click(function(){		
+    				$(this).closest(".container").find(".espandibile").toggle();
+				});			
+	
+		});
+
+		
+	
+	</script>
+
+</head>
+<body>
+
+
+
+	<div class="container">
+		<img class="toggle" src="resources/plus.png" width="20px">
+		<div class="espandibile">
+			<ul>
+				<li>1</li>
+				<li>2</li>
+				<li>3</li>
+				<li>4</li>
+				<li>5</li>
+				<li>6</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="container">
+		<img class="toggle" src="resources/plus.png" width="20px">
+		<div class="espandibile">
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+			<li>6</li>
+		</div>
+	</div>
+	
+	<div class="container">
+		<img class="toggle" src="resources/plus.png" width="20px">
+		<div class="espandibile">
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+			<li>6</li>
+		</div>
+	</div>
+	
+	
+
+</body>
+</html>

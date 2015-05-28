@@ -8,9 +8,10 @@
     <servlet-name>Callback</servlet-name>
     <servlet-class>connessione.Callback</servlet-class>
   </servlet>
-  
-  
-  
+   <servlet>
+    <servlet-name>Application</servlet-name>
+    <servlet-class>Application</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>SignIn</servlet-name>
     <url-pattern>/SignIn</url-pattern>
@@ -18,5 +19,9 @@
   <servlet-mapping>
     <servlet-name>Callback</servlet-name>
     <url-pattern>/Callback</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Application</servlet-name>
+    <url-pattern>/Application</url-pattern>
   </servlet-mapping>
 </web-app>

@@ -3,8 +3,12 @@
 <%@page import="twitter4j.User"%>
 <%@page import="twitter4j.AccountSettings"%>
 <%@page import="twitter4j.Twitter"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="connessione.Utente" %>
+<%@page import="connessione.Arco" %>
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -12,13 +16,17 @@
 <title>User Information</title>
 <link href="../css/style.css" rel="stylesheet" type="text/css">
 
-	<% 	Twitter twitter = (Twitter)session.getAttribute("twitter");
+	<% 	
+		Twitter twitter = (Twitter)session.getAttribute("twitter");
 		AccountSettings as = twitter.getAccountSettings();
 		User user = twitter.showUser(as.getScreenName());
 		session.setAttribute("myUser", user);
 		//IDs ids = twitter.getFollowersIDs(user.getId());
-		IDs i = twitter.getFollowersIDs(user.getId()); // Dopo twitter.showUser();
+		IDs listaIDs = twitter.getFollowersIDs(user.getId(), -1); // Dopo twitter.showUser();
 		PagableResponseList<User> ids = twitter.getFollowersList(user.getId(), -1);
+		
+		ArrayList<Utente> listaUtenti = new ArrayList<Utente>();
+		ArrayList<Arco> listaArchi = new ArrayList<Arco>();
 	
 	%>
 
@@ -31,6 +39,12 @@
 				<table>
 					<tr>
 						<td>
+							<% 	Utente utente = new Utente();
+								utente.id = user.getId();
+								utente.url = user.getBiggerProfileImageURL();
+								if (!listaUtenti.contains(utente))
+									listaUtenti.add(utente);
+							%>
 							<img src="<%= user.getOriginalProfileImageURL()  %>" width="256px" height="256px">
 						</td>
 						<td>
@@ -59,11 +73,11 @@
 					<table class="users" align="center">
 					<%	
 						int k = 0;
-						for (User u:ids)
+						//for (User u:ids)
 						//long idiesse[] = i.getIDs();
-						//for(int k = 0; k < idiesse.length; k ++)
+						for(long id: listaIDs.getIDs())
 						{	
-							//User u = twitter.showUser(idiesse[k]);
+							User u = twitter.showUser(id);
 							if (k % 2 == 0)
 								out.println("<tr>");
 					%>
@@ -76,6 +90,23 @@
 							if (k % 2 == 1)
 								out.println("</tr>");
 							k++;		
+							
+							
+							Utente utente2 = new Utente();
+							utente2.id = u.getId();
+							utente2.url = u.getBiggerProfileImageURL();
+						
+							if (!listaUtenti.contains(utente2))
+								listaUtenti.add(utente2);
+							
+							Arco a = new Arco();
+							a.idSource = utente.id;
+							a.idTarget = utente2.id;
+							
+							if (!listaArchi.contains(a))
+								listaArchi.add(a);
+						
+							
 						}
 					%>
 					</table>
@@ -90,6 +121,9 @@
 							</td>
 						</tr>
 					</table>
+					<% 	session.setAttribute("listaUtenti", listaUtenti);
+						session.setAttribute("listaArchi", listaArchi);
+					%>
 				</div>
 			</form>
 		</div> 

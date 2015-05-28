@@ -6,6 +6,8 @@
 <%@page import="twitter4j.User"%>
 <%@page import="twitter4j.AccountSettings"%>
 <%@page import="twitter4j.Twitter"%>
+<%@page import="connessione.Utente" %>
+<%@page import="connessione.Arco" %>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -22,11 +24,11 @@
 
 
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<script src="http://cytoscape.github.io/cytoscape.js/api/cytoscape.js-latest/cytoscape.min.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js"></script>
-<link href="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.css" rel="stylesheet" type="text/css" />
-<script src="https://cdn.rawgit.com/cytoscape/cytoscape.js-qtip/2.1.0/cytoscape-qtip.js"></script>
+<script src="../js/jquery-1.11.3.min.js"></script>
+<script src="../js/cytoscape.min.js"></script>
+<script src="../js/jquery.qtip.min.js"></script>
+<link href="../css/jquery.qtip.min.css" rel="stylesheet" type="text/css" />
+<script src="../js/cytoscape-qtip.js"></script>
 	
 	
 	
@@ -60,18 +62,6 @@
 
 
 	<% 	
-		class Utente 
-		{
-			long id;
-			String url;
-		}
-	
-		class Arco
-		{
-			long idSource;
-			long idTarget;
-		}
-	
 		
 		Twitter twitter = (Twitter)session.getAttribute("twitter");
 		User myUser = (User)session.getAttribute("myUser");	
@@ -85,175 +75,190 @@
 			followers[k++] = twitter.showUser(Long.parseLong(s));
 		}		
 		
+		ArrayList<Utente> listaFollowerUtenti = (ArrayList<Utente>)session.getAttribute("listaUtenti");
+		ArrayList<Arco> listaArchi = (ArrayList<Arco>)session.getAttribute("listaArchi");
+		
 		ArrayList<Utente> listaUtenti = new ArrayList<Utente>();
-		ArrayList<Arco> listaArchi = new ArrayList<Arco>();
 		
-		
+		for (Utente myFol: listaFollowerUtenti)
+			listaUtenti.add(myFol);
 		
 	%>
 	
 </head>
 <body>
-
-	<div class="left" style="vertical-align: baseline;">
-
-		<div class="followersfloor">
-			<table>
-					<tr>
-						<td>
-							<img class="toggle" src="../resources/minus.png" width="20px">
-						</td>
-						<td> 
-							<img src="<%= myUser.getProfileImageURL()%>">
-						</td>
-						<td class="userName">
-							<%= myUser.getName() %>
-						</td>
-						<td class="userFollowersCountSentence">
-							User followers count:
-						</td>
-						<td class="userFollowersCount">
-						 	<%=myUser.getFollowersCount() %>
-						</td>
-						<% 
-							Utente utente = new Utente();
-							utente.id = myUser.getId();
-							utente.url = myUser.getBiggerProfileImageURL();
-
-							listaUtenti.add(utente);
-						 %>
-					</tr>
-			</table>
-			<div class="espandibile">
+	<div class="container">
+		<div class="left" style="vertical-align: baseline;">
+	
+			<div class="followersfloor">
+				<!-- INIZIO UTENTE AUTENTICATO -->
+				<table>
+						<tr>
+							<td>
+								<img class="toggle" src="../resources/minus.png" width="20px">
+							</td>
+							<td> 
+								<img src="<%= myUser.getProfileImageURL()%>">
+							</td>
+							<td class="userName">
+								<%= myUser.getName() %>
+							</td>
+							<td class="userFollowersCountSentence">
+								User followers count:
+							</td>
+							<td class="userFollowersCount">
+							 	<%=myUser.getFollowersCount() %>
+							</td>
+							<% 
+								Utente utente = new Utente();
+								utente.id = myUser.getId();
+								utente.url = myUser.getBiggerProfileImageURL();
+								if (!listaUtenti.contains(utente))
+									listaUtenti.add(utente);
+							 %>
+						</tr>
+				</table>
+				<!-- FINE UTENTE AUTENTICATO -->
 				
 				
-				<%	
-					for(User u:followers){					
-				%>		
-						<div class="followersfloor">
-							<table style="padding-left: 50px">
-								<tr>
-									<td>
-										<img class="toggle" src="../resources/minus.png" width="20px">
-									</td>
-									<td> 
-										<img src="<%= u.getProfileImageURL()%>">
-									</td>
-									<td class="userName">
-										<%= u.getName() %>
-									</td>
-									<td class="userFollowersCountSentence">
-										User followers count:
-									</td>
-									<td class="userFollowersCount">
-						 				<%=u.getFollowersCount() %>
-									</td>
-								</tr>
-								<% 
-									Utente utente2 = new Utente();
-									utente2.id = u.getId();
-									utente2.url = u.getBiggerProfileImageURL();
-		
-									listaUtenti.add(utente2);
-									
-									Arco a = new Arco();
-									a.idSource = utente.id;
-									a.idTarget = utente2.id;
-									
-									listaArchi.add(a);
-								 %>
-							</table>
-							<div class="espandibile">
-													
-								<%							
-									PagableResponseList<User> innerFollowers = twitter.getFollowersList(u.getId(), -1);
-									for(User user:innerFollowers){
-								%>													
-												<div class="followersfloor">
-													<table style="padding-left: 120px">
-														<tr>
-															<td> 
-																<img src="<%= user.getProfileImageURL()%>">
-															</td>
-															<td class="userName">
-																<%= user.getName() %>
-															</td>
-															<td class="userFollowersCountSentence">
-																User followers count:
-															</td>
-															<td class="userFollowersCount">
-												 				<%=user.getFollowersCount() %>
-															</td>
-														</tr>
-													</table>
-													<% 
-														Utente utente3 = new Utente();
-														utente3.id = user.getId();
-														utente3.url = user.getBiggerProfileImageURL();
+				<div class="espandibile">
+					
+					<!-- INIZIO FOLLOWER UTENTE AUTENTICATO -->		
+					<%	
+						for(User u:followers){					
+					%>		
+							<div class="followersfloor">
+								<table style="padding-left: 50px">
+									<tr>
+										<td>
+											<img class="toggle" src="../resources/minus.png" width="20px">
+										</td>
+										<td> 
+											<img src="<%= u.getProfileImageURL()%>">
+										</td>
+										<td class="userName">
+											<%= u.getName() %>
+										</td>
+										<td class="userFollowersCountSentence">
+											User followers count:
+										</td>
+										<td class="userFollowersCount">
+							 				<%=u.getFollowersCount() %>
+										</td>
+									</tr>
+									<% 
+										Utente utente2 = new Utente();
+										utente2.id = u.getId();
+										utente2.url = u.getBiggerProfileImageURL();
+										/*
+										if (!listaUtenti.contains(utente2))
+											listaUtenti.add(utente2);
+										
+										Arco a = new Arco();
+										a.idSource = utente.id;
+										a.idTarget = utente2.id;
+										
+										if (!listaArchi.contains(a))
+											listaArchi.add(a);*/
+									 %>
+								</table>
+					<!-- FINE FOLLOWER UTENTE AUTENTICATO -->			
+								<div class="espandibile">
+														
+									<%							
+										PagableResponseList<User> innerFollowers = twitter.getFollowersList(u.getId(), -1);
+										for(User user:innerFollowers){
+									%>				
+											<!-- INIZIO FOLLOWER di FOLLOWER -->									
+													<div class="followersfloor">
+														<table style="padding-left: 120px">
+															<tr>
+																<td> 
+																	<img src="<%= user.getProfileImageURL()%>">
+																</td>
+																<td class="userName">
+																	<%= user.getName() %>
+																</td>
+																<td class="userFollowersCountSentence">
+																	User followers count:
+																</td>
+																<td class="userFollowersCount">
+													 				<%=user.getFollowersCount() %>
+																</td>
+															</tr>
+														</table>
+														<% 
+															Utente utente3 = new Utente();
+															utente3.id = user.getId();
+															utente3.url = user.getBiggerProfileImageURL();
+								
+															if (!listaUtenti.contains(utente3))
+																listaUtenti.add(utente3);
+															
+															Arco a1 = new Arco();
+															a1.idSource = utente2.id;
+															a1.idTarget = utente3.id;
+															
+															if (!listaArchi.contains(a1))
+																listaArchi.add(a1);
+														 %>
+											<!-- FINE FOLLOWER di FOLLOWER -->
+														<div class="espandibile">
+															
+														</div>
+													</div>																				
+									<% 	
+										}
+									%>
 							
-														listaUtenti.add(utente3);
-														
-														Arco a1 = new Arco();
-														a1.idSource = utente2.id;
-														a1.idTarget = utente3.id;
-														
-														listaArchi.add(a1);
-													 %>
-													<div class="espandibile">
-														
-													</div>
-												</div>																				
-								<% 	
-									}
-								%>
-						
+								</div>
 							</div>
-						</div>
-						
-						
-				<% 	
-					}
-				%>
-				
+							
+							
+					<% 	
+						}
+					%>
+					
+				</div>
 			</div>
+	
 		</div>
-
-	</div>
-	
-	<div class="right" style="vertical-align: top;">
-		<a class="aqua-button" onclick="mostraGrafo()">
-									<span class="shine"></span>
-									<span class="glow"></span>
-									Mostra il grafo
-		</a>
 		
-	</div>
-	<div class="overlay" id="cy">
-	</div>
-	<% for (Utente u: listaUtenti)
-	{
-		%>
-		<%= u.id %>
-		<%
-	}
-		%>
-		
-		<br>
-	<% 	for(Arco a: listaArchi) {
+		<div class="right" style="vertical-align: top;">
+			<a class="aqua-button" onclick="mostraGrafo()">
+										<span class="shine"></span>
+										<span class="glow"></span>
+										Mostra il grafo
+			</a>
 			
-			%>
-					<%= String.valueOf(a.idSource) %> <%= String.valueOf(a.idTarget)%> <br>
-			<%
-				}
-	%>
-	
-	
-		<script>
-	var disegnato = false;
+		</div>
+	</div>
 
+
+	<div class="overlayHidden" id="cy">
+	</div>
+	
+	<script>
+	var disegnato = false;
+	var mostrato = true;
+	
 	function mostraGrafo()
 	{
-		toggleGrafo();
+		if (mostrato == true) {
+			$('.container').removeClass('container').addClass('containerblur');
+			$('.overlayHidden').removeClass('overlayHidden').addClass('overlay');
+			mostrato = false;
+		}
+		else {
+			$('.containerblur').removeClass('containerblur').addClass('container');
+			$('.overlay').removeClass('overlay').addClass('overlayHidden');
+			mostrato = true;
+		}
+			
+		
+		
+		//toggleGrafo();
+		
 		if (disegnato == false){
 			aggiungi();
 			disegnato = true;				

@@ -1,3 +1,5 @@
+var zoomFactor = 4;
+var zIndex = 1;
 var cy;
 
 function toggleGrafo() {
@@ -12,8 +14,8 @@ function disegnaGrafo(){
 	  style: cytoscape.stylesheet()
 	  	.selector('node') // ELEMENTO NODO
 	  		.css({
-			        'height': 30,
-			        'width': 30,
+			        'height': 200,
+			        'width': 200,
 			        'background-fit': 'cover',
 			        'border-color': '#0f0',
 			        'border-width': 3,
@@ -33,6 +35,7 @@ function disegnaGrafo(){
 	    .selector('edge')
 	      .css({
 	        'width': 3,
+	        'height': 70,
 	        'target-arrow-shape': 'triangle',
 	        'line-color': '#aaaaff',
 	        'target-arrow-color': '#aaaaff'
@@ -44,26 +47,21 @@ function disegnaGrafo(){
 				    padding: 10
 				  }
   }); // cy init
- 
-  cy.on('click', 'node', function(){
-	var s = "<div style='padding: " + Math.ceil(this.position('x')) + "px " + Math.ceil(this.position('y')) + "px'> CiaoCiao </div>";
-	//var s = "<div style='padding: 100px 200px'> CiaoCiao </div>";
-	//$('#cy').append(s)
-		
-	var c = "Ciao Marzo";
-	//c = cy.$().dc({root: 'this'}).degree;
-	
-	
-  }); // on tap
 
- /* cy.$('#cat').qtip({
-            content: 'Ciao Ciao',
-            hide: {
-                fixed: true,
-                delay: 300
-            }
-        });	
-*/
+
+  cy.on('mouseover', 'node', function() {
+	  this.style('width', this.width() * zoomFactor);
+	  this.style('height', this.height() * zoomFactor);
+	  this.style('z-index', zIndex++);
+	
+  });
+  
+  cy.on('mouseout', 'node', function() {
+	  this.style('width', this.width() / zoomFactor);
+	  this.style('height', this.height() / zoomFactor);
+  });
+  
+  
   
   
   $('a').each(function () {
@@ -115,14 +113,15 @@ function aggiornaLayout()
 	var ccn = cy.elements().ccn(); 		// e) Closeness centrality normalized
 	
   cy.nodes().forEach(function( ele ){
-	  var dc  = cy.elements().dc({root: '#'+ele.id()}).degree; 
+	  var dc  = cy.elements().dc({root: '#'+ele.id()}).degree; 	// a) Degree Centrality
 	  var cc  = cy.elements().cc({root: '#'+ele.id()}); 		// d) Closeness centrality 
 
 	  var content = "Degree centrality: " + dc.toFixed(2).toString() + "<BR>" +
 	  				"Degree centrality normalized: " + dcn.degree('#'+ele.id()).toFixed(2).toString() + "<BR>" +
 	  				"Betweeness centrality: " + bc.betweenness('#'+ele.id()).toFixed(2).toString() + "<BR>" +
 	  				"Closeness centrality: " + cc.toFixed(2).toString() + "<BR>" +
-	  				"Closeness centrality normalized: " + ccn.closeness('#'+ele.id()).toFixed(2).toString();
+	  				"Closeness centrality normalized: " + ccn.closeness('#'+ele.id()).toFixed(2).toString() +
+	  				"<a href='www.google.it'>Ciao </a>";
 	  
 	  cy.$('#'+ele.id()).qtip({
 		  content: content,
@@ -131,19 +130,28 @@ function aggiornaLayout()
 		    at: 'bottom center'
 		  },
 		  style: {
-		    classes: 'qtip-bootstrap',
-		    width: 325,
+		    classes: 'qtip-bootstrap myQtip',
+		    
 		    tip: {
 		      width: 16,
-		      height: 8
+		      height#: 8
 		    }
 		  },
 		  hide: {
               fixed: true,
               delay: 300
           }
+  }).qtip({
+	 content: "Secondo Qtip",
+	 style: {
+		 classes: 'qtip-titlebar'
+	 },
+	 position: {
+		    my: 'top left', //Tip Start
+		    at: 'bottom right' //Node From
+		  },
+		 
   });
   });
-  alert("FATTO");
   
 };

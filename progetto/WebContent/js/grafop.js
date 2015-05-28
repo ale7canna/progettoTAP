@@ -134,7 +134,7 @@ function aggiornaLayout()
 		    
 		    tip: {
 		      width: 16,
-		      height#: 8
+		      height: 8
 		    }
 		  },
 		  hide: {

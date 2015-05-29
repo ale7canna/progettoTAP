@@ -49,7 +49,7 @@ function disegnaGrafo(){
   }); // cy init
 
 
-  cy.on('tap', 'node', function() {
+  cy.on('mouseover', 'node', function() {
 	  this.style('width', this.width() * zoomFactor);
 	  this.style('height', this.height() * zoomFactor);
 	  this.style('z-index', zIndex++);
@@ -112,6 +112,7 @@ function aggiornaLayout()
 	
 	var ccn = cy.elements().ccn(); 		// e) Closeness centrality normalized
 	
+	alert(cy.nodes().length);
 	
 	
 	cy.nodes().forEach(function( ele ){
@@ -126,6 +127,7 @@ function aggiornaLayout()
 		  				"<a href='www.google.it'>Ciao </a>";
 		  
 		  cy.$('#'+ele.id()).qtip({
+			  id: 'myQtip',
 			  content: content,
 			  position: {
 			    my: 'top center',
@@ -143,7 +145,8 @@ function aggiornaLayout()
 	              fixed: true,
 	              delay: 300
 	          }
-	  }).qtip({
+		  })
+		  .qtip({
 		 content: "Secondo Qtip",
 		 style: {
 			 classes: 'qtip-titlebar'

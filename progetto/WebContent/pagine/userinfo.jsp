@@ -18,12 +18,20 @@
 
 	<% 	
 		Twitter twitter = (Twitter)session.getAttribute("twitter");
-		AccountSettings as = twitter.getAccountSettings();
-		User user = twitter.showUser(as.getScreenName());
+		
+		String userID = request.getParameter("userID");
+		User user = null;
+		if (userID != null)
+			user = twitter.showUser(Long.parseLong(userID));
+		else {
+				
+			user = twitter.showUser((long)session.getAttribute("userID"));
+			
+		}
+			
 		session.setAttribute("myUser", user);
 		//IDs ids = twitter.getFollowersIDs(user.getId());
 		IDs listaIDs = twitter.getFollowersIDs(user.getId(), -1); // Dopo twitter.showUser();
-		PagableResponseList<User> ids = twitter.getFollowersList(user.getId(), -1);
 		
 		ArrayList<Utente> listaUtenti = new ArrayList<Utente>();
 		ArrayList<Arco> listaArchi = new ArrayList<Arco>();
@@ -54,8 +62,8 @@
 										<ul>
 											<li><a href="#"><%= user.getName() %></a></li>
 											<li><a href="#"><%= user.getLocation() %></a></li>										
-											<li><a href="#"><%= user.getFriendsCount() %></a></li>
-											<li><a href="#"><%= user.getFollowersCount() %></a></li>
+											<li><a href="#">Following count <%= user.getFriendsCount() %></a></li>
+											<li><a href="#">Follower count <%= user.getFollowersCount() %></a></li>
 										</ul>
 									</td>
 								</tr>
@@ -73,8 +81,6 @@
 					<table class="users" align="center">
 					<%	
 						int k = 0;
-						//for (User u:ids)
-						//long idiesse[] = i.getIDs();
 						for(long id: listaIDs.getIDs())
 						{	
 							User u = twitter.showUser(id);
@@ -84,7 +90,7 @@
 						
 							<td><input type="checkbox" name="follower" value="<%= u.getId() %>"></td>
 							<td><img src="<%= u.getProfileImageURL() %>"></td>
-							<td class="nomeUtente"><span><%=u.getName()%></span></td>
+							<td class="nomeUtente"><%=u.getName()%></td>
 					
 					<%		
 							if (k % 2 == 1)
@@ -106,6 +112,8 @@
 							if (!listaArchi.contains(a))
 								listaArchi.add(a);
 						
+							if (k > 160)
+								break;
 							
 						}
 					%>

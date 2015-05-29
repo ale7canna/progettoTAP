@@ -49,7 +49,7 @@ function disegnaGrafo(){
   }); // cy init
 
 
-  cy.on('mouseover', 'node', function() {
+  cy.on('tap', 'node', function() {
 	  this.style('width', this.width() * zoomFactor);
 	  this.style('height', this.height() * zoomFactor);
 	  this.style('z-index', zIndex++);
@@ -112,46 +112,48 @@ function aggiornaLayout()
 	
 	var ccn = cy.elements().ccn(); 		// e) Closeness centrality normalized
 	
-  cy.nodes().forEach(function( ele ){
-	  var dc  = cy.elements().dc({root: '#'+ele.id()}).degree; 	// a) Degree Centrality
-	  var cc  = cy.elements().cc({root: '#'+ele.id()}); 		// d) Closeness centrality 
-
-	  var content = "Degree centrality: " + dc.toFixed(2).toString() + "<BR>" +
-	  				"Degree centrality normalized: " + dcn.degree('#'+ele.id()).toFixed(2).toString() + "<BR>" +
-	  				"Betweeness centrality: " + bc.betweenness('#'+ele.id()).toFixed(2).toString() + "<BR>" +
-	  				"Closeness centrality: " + cc.toFixed(2).toString() + "<BR>" +
-	  				"Closeness centrality normalized: " + ccn.closeness('#'+ele.id()).toFixed(2).toString() +
-	  				"<a href='www.google.it'>Ciao </a>";
+	
+	
+	cy.nodes().forEach(function( ele ){
+		  var dc  = cy.elements().dc({root: '#'+ele.id()}).degree; 	// a) Degree Centrality
+		  var cc  = cy.elements().cc({root: '#'+ele.id()}); 		// d) Closeness centrality 
+	
+		  var content = "Degree centrality: " + dc.toFixed(2).toString() + "<BR>" +
+		  				"Degree centrality normalized: " + dcn.degree('#'+ele.id()).toFixed(2).toString() + "<BR>" +
+		  				"Betweeness centrality: " + bc.betweenness('#'+ele.id()).toFixed(2).toString() + "<BR>" +
+		  				"Closeness centrality: " + cc.toFixed(2).toString() + "<BR>" +
+		  				"Closeness centrality normalized: " + ccn.closeness('#'+ele.id()).toFixed(2).toString() +
+		  				"<a href='www.google.it'>Ciao </a>";
+		  
+		  cy.$('#'+ele.id()).qtip({
+			  content: content,
+			  position: {
+			    my: 'top center',
+			    at: 'bottom center'
+			  },
+			  style: {
+			    classes: 'qtip-bootstrap myQtip',
+			    
+			    tip: {
+			      width: 16,
+			      height: 8
+			    }
+			  },
+			  hide: {
+	              fixed: true,
+	              delay: 300
+	          }
+	  }).qtip({
+		 content: "Secondo Qtip",
+		 style: {
+			 classes: 'qtip-titlebar'
+		 },
+		 position: {
+			    my: 'top left', //Tip Start
+			    at: 'bottom right' //Node From
+			  },
+			 
+	  });
+	  });
 	  
-	  cy.$('#'+ele.id()).qtip({
-		  content: content,
-		  position: {
-		    my: 'top center',
-		    at: 'bottom center'
-		  },
-		  style: {
-		    classes: 'qtip-bootstrap myQtip',
-		    
-		    tip: {
-		      width: 16,
-		      height: 8
-		    }
-		  },
-		  hide: {
-              fixed: true,
-              delay: 300
-          }
-  }).qtip({
-	 content: "Secondo Qtip",
-	 style: {
-		 classes: 'qtip-titlebar'
-	 },
-	 position: {
-		    my: 'top left', //Tip Start
-		    at: 'bottom right' //Node From
-		  },
-		 
-  });
-  });
-  
 };

@@ -51,7 +51,6 @@ public class SignIn extends HttpServlet {
 		
 		TwitterFactory fact = new TwitterFactory(conf);
 		Twitter twit = fact.getInstance();
-		//twit.setOAuthConsumer("lcG8Dlc7n21QShe0PQPD1zhbV", "BDiIjRmul86mXaGRPnw4utmU2rHnXPoQCHqbuKqmKnteMd0Kad");
 		
 		RequestToken requestToken = null;
 		AccessToken accessToken = null;

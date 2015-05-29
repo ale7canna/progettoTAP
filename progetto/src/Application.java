@@ -2,9 +2,9 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,10 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
-import twitter4j.auth.AccessToken;
-import twitter4j.auth.OAuth2Authorization;
-import twitter4j.auth.OAuth2Token;
-import twitter4j.auth.RequestToken;
+import twitter4j.User;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
@@ -26,6 +23,8 @@ public class Application extends HttpServlet {
 
 	private final String CONSUMER_KEY = "lcG8Dlc7n21QShe0PQPD1zhbV";
 	private final String CONSUMER_SECRET = "BDiIjRmul86mXaGRPnw4utmU2rHnXPoQCHqbuKqmKnteMd0Kad";
+	private final String ACCESS_TOKEN = "1070757523-UCAx3sNj2Ltpy89LMkkzAz0Man5T6bBsRRAbjBG";
+	private final String ACCESS_TOKEN_SECRET = "ydLwPkZbF5RqNssmr9GsbTCGEPKJx3wKdLcf8KMiQdfq0";
     
 	
 
@@ -58,7 +57,8 @@ public class Application extends HttpServlet {
 		ConfigurationBuilder builder = new ConfigurationBuilder();
 		builder.setOAuthConsumerKey(CONSUMER_KEY);
 		builder.setOAuthConsumerSecret(CONSUMER_SECRET);
-		builder.setApplicationOnlyAuthEnabled(true);
+		builder.setOAuthAccessToken(ACCESS_TOKEN);
+		builder.setOAuthAccessTokenSecret(ACCESS_TOKEN_SECRET);
 		
 		
 		Configuration conf = builder.build();
@@ -67,22 +67,20 @@ public class Application extends HttpServlet {
 		
 		Twitter twit = fact.getInstance();
 		
-		//twit.setOAuthConsumer("lcG8Dlc7n21QShe0PQPD1zhbV", "BDiIjRmul86mXaGRPnw4utmU2rHnXPoQCHqbuKqmKnteMd0Kad");
+		String userSearch = request.getParameter("userSearch");
 		
-		RequestToken requestToken = null;
-		AccessToken accessToken = null;
-		String authUrl = "";
+		List<User> userResult = null;
 		try {
-			OAuth2Token token = twit.getOAuth2Token();
-			twit.setOAuth2Token(token);
+			userResult = twit.searchUsers(userSearch, 2);
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		request.getSession().setAttribute("requestToken", requestToken);
 		request.getSession().setAttribute("twitter", twit);
-		response.sendRedirect("https://api.twitter.com/oauth2/token");
+		request.getSession().setAttribute("userResult", userResult);
+		
+		response.sendRedirect(callback);
 		
 		
 		

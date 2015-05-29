@@ -5,7 +5,6 @@ body {
 }
 
 div.container {
-	display: table-cell;
 	background-color: #ddddff;
 	width: 100vw;
 	height: 100vh;
@@ -17,7 +16,6 @@ div.container {
 }
 
 div.containerblur {
-	display: table-cell;
 	background-color: #ddddff;
 	width: 100vw;
 	height: 100vh;
@@ -53,6 +51,7 @@ div.right {
 	width: 40vw;
 	height: 100vh;
 	vertical-align: middle;
+	overflow-y: scroll;
 }
 
 div.center {

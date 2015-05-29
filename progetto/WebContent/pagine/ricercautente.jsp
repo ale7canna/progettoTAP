@@ -19,21 +19,41 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+
+	
+	<%
+		List<User> result = (List<User>)session.getAttribute("userResult");
+	%>
+	
 </head>
 <body>
-	<%	
-		out.println("CIoa");
-		Twitter twitter = (Twitter)session.getAttribute("twitter");
-	
-		Query q = new Query("Giorgio");
-		
-		QueryResult qr = twitter.search(q);
-		List<Status> res = qr.getTweets();
-		
-		for (Status s:res)
-			out.println(s.getText());
-		
-		
+
+	<form method="GET" action="userinfo.jsp">
+		<table>
+		<%	
+			for (User u : result) {
 		%>
+				<tr>
+					<td>
+						<input type="radio" name="userID" value="<%= u.getId() %>">		
+					</td>
+					<td>
+						<img src="<%= u.getMiniProfileImageURL() %>" >
+					</td>
+					<td>
+						<p class="nomeUtente"><%= u.getName() %> </p>
+					</td>
+				</tr>
+				
+				
+		<%
+			}
+			
+		%>
+			
+		</table>
+		<br>
+		<input type="submit" value="premi">
+	</form>	
 </body>
 </html>

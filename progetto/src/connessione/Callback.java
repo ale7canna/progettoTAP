@@ -34,9 +34,10 @@ public class Callback extends HttpServlet {
 		RequestToken requestToken = (RequestToken) request.getSession().getAttribute("requestToken");
 		Twitter twitter = (Twitter)request.getSession().getAttribute("twitter");
 		
+		twitter4j.auth.AccessToken accessToken  = null;
 		try {
 			
-			twitter4j.auth.AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, pin);
+			accessToken = twitter.getOAuthAccessToken(requestToken, pin);
 			twitter.setOAuthAccessToken(accessToken);
 			
 			
@@ -46,6 +47,8 @@ public class Callback extends HttpServlet {
 		}
 		
 		request.setAttribute("twitter", twitter);
+		long id = accessToken.getUserId();
+		request.getSession().setAttribute("userID", id);
 		response.sendRedirect("pagine/userinfo.jsp");
 		
 		

@@ -112,22 +112,21 @@ function aggiornaLayout()
 	
 	var ccn = cy.elements().ccn(); 		// e) Closeness centrality normalized
 	
-	alert(cy.nodes().length);
 	
+	var id = 1;
 	
 	cy.nodes().forEach(function( ele ){
 		  var dc  = cy.elements().dc({root: '#'+ele.id()}).degree; 	// a) Degree Centrality
 		  var cc  = cy.elements().cc({root: '#'+ele.id()}); 		// d) Closeness centrality 
 	
-		  var content = "Degree centrality: " + dc.toFixed(2).toString() + "<BR>" +
+		  var content = 
+			  			"Degree centrality: " + dc.toFixed(2).toString() + "<BR>" +
 		  				"Degree centrality normalized: " + dcn.degree('#'+ele.id()).toFixed(2).toString() + "<BR>" +
 		  				"Betweeness centrality: " + bc.betweenness('#'+ele.id()).toFixed(2).toString() + "<BR>" +
 		  				"Closeness centrality: " + cc.toFixed(2).toString() + "<BR>" +
-		  				"Closeness centrality normalized: " + ccn.closeness('#'+ele.id()).toFixed(2).toString() +
-		  				"<a href='www.google.it'>Ciao </a>";
+		  				"Closeness centrality normalized: " + ccn.closeness('#'+ele.id()).toFixed(2).toString();
 		  
 		  cy.$('#'+ele.id()).qtip({
-			  id: 'myQtip',
 			  content: content,
 			  position: {
 			    my: 'top center',
@@ -145,18 +144,20 @@ function aggiornaLayout()
 	              fixed: true,
 	              delay: 300
 	          }
-		  })
-		  .qtip({
-		 content: "Secondo Qtip",
-		 style: {
-			 classes: 'qtip-titlebar'
-		 },
-		 position: {
-			    my: 'top left', //Tip Start
-			    at: 'bottom right' //Node From
-			  },
-			 
+		  });
+
+		
+		  
+		  id = id + 1;
 	  });
-	  });
+	
+	for (k = 0; k < cy.nodes().length; k++){
+		string = "#qtip-" + (k + 1).toString();
+		$(string).qtip({
+			content: "Azz"
+			
+			
+		});
+	}
 	  
 };

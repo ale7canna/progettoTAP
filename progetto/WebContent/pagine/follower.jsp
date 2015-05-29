@@ -20,9 +20,6 @@
 	
 
 <script src="../js/grafop.js"></script>	
-<script src="script.js"></script>
-
-
 
 <script src="../js/jquery-1.11.3.min.js"></script>
 <script src="../js/cytoscape.min.js"></script>
@@ -225,11 +222,7 @@
 		</div>
 		
 		<div class="right" style="vertical-align: top;">
-			<a class="aqua-button" onclick="mostraGrafo()">
-										<span class="shine"></span>
-										<span class="glow"></span>
-										Mostra il grafo
-			</a>
+			<a href="#" class="button" onclick="mostraGrafo()">Mostra il grafo</a>
 			
 		</div>
 	</div>
@@ -254,10 +247,6 @@
 			$('.overlay').removeClass('overlay').addClass('overlayHidden');
 			mostrato = true;
 		}
-			
-		
-		
-		//toggleGrafo();
 		
 		if (disegnato == false){
 			aggiungi();
@@ -287,12 +276,7 @@
 			aggiornaLayout();
 		}
 	
-	</script>
-	
-	
-	
-		
-		
+	</script>		
 
 </body>
 </html>

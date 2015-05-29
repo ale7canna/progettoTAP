@@ -18,8 +18,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-
+<title>Ricerca utente</title>
+<link href="../css/style.css" rel="stylesheet" type="text/css">
 	
 	<%
 		List<User> result = (List<User>)session.getAttribute("userResult");
@@ -27,33 +27,58 @@
 	
 </head>
 <body>
+	<div class="container">
+		<div class="left">
+			<div style="height:100%; width: 100%">
+				
+					
+				<span style="display: table-cell; width:100vw; height: 13vh; vertical-align: bottom; text-align: center"><h2>Risultati della ricerca utente</h2></span>
 
-	<form method="GET" action="userinfo.jsp">
-		<table>
-		<%	
-			for (User u : result) {
-		%>
-				<tr>
-					<td>
-						<input type="radio" name="userID" value="<%= u.getId() %>">		
-					</td>
-					<td>
-						<img src="<%= u.getMiniProfileImageURL() %>" >
-					</td>
-					<td>
-						<p class="nomeUtente"><%= u.getName() %> </p>
-					</td>
-				</tr>
 				
-				
-		<%
-			}
-			
-		%>
-			
-		</table>
-		<br>
-		<input type="submit" value="premi">
-	</form>	
+				<div style="overflow-y: auto; height: 85vh">
+					<form method="GET" action="userinfo.jsp" style=" width:100%; height:100%">
+						<input type="submit" value="premi">
+						<table class="users" align="center">
+						<%	
+							for (User u : result) {
+						%>
+								<tr>
+									<td>
+										<input type="radio" name="userID" value="<%= u.getId() %>">		
+									</td>
+									<td>
+										<img src="<%= u.getProfileImageURL() %>" >
+									</td>
+									<td>
+										<p class="nomeUtente"><%= u.getName() %> </p>
+									</td>
+									<td>Follower count <%= u.getFollowersCount() %></td>
+								</tr>
+								
+								
+						<%
+							}
+							
+						%>
+							
+						</table>						
+					</form>	
+				</div>
+			</div>	
+		</div>
+
+		<div class="right">
+		
+			<div>
+				<h1>Ciao Search</h1>
+				<form method="POST" name="formRicerca" action ="/progetto/Application">
+					<input type="text" name="userSearch">
+					<a href="#" class="button" onclick="formRicerca.submit()">Cerca</a>
+				</form>
+			</div>
+		
+		</div>
+	</div>
+
 </body>
 </html>

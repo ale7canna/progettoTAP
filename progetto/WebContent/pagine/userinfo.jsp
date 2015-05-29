@@ -77,7 +77,7 @@
 		</div>
 		<div class="right">
 			<form name="formFollower" method="get" action="follower.jsp">
-				<div id="userList">
+				<div id="userList" style="display:block">
 					<table class="users" align="center">
 					<%	
 						int k = 0;
@@ -118,17 +118,16 @@
 						}
 					%>
 					</table>
+					</div>
+					<span>
 					<table align="center">
 						<tr>
 							<td>
-								<a class="aqua-button" onclick="formFollower.submit()">
-									<span class="shine"></span>
-									<span class="glow"></span>
-									Invia tuoi Follower
-								</a>
+								<a href="#" class="button" onclick="formFollower.submit()">Invia</a>
 							</td>
 						</tr>
 					</table>
+					</span>
 					<% 	session.setAttribute("listaUtenti", listaUtenti);
 						session.setAttribute("listaArchi", listaArchi);
 					%>

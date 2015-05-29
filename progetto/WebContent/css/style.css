@@ -2,26 +2,27 @@
 
 body {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	margin: 0px;
 }
 
 div.container {
 	background-color: #ddddff;
-	width: 100vw;
-	height: 100vh;
+	width: auto;
+	height: 99vh;
 	vertical-align: middle;
 	text-align: center;
-	padding: 0 10vw;
+	padding: 5px 10vw;
 	transform: scale(1);
 	-webkit-transition: transform 1s ease;
 }
 
 div.containerblur {
 	background-color: #ddddff;
-	width: 100vw;
-	height: 100vh;
+	width: auto;
+	height: 99vh;
 	vertical-align: middle;
 	text-align: center;
-	padding: 0 10vw;
+	padding: 5px 10vw;
 	
 	box-shadow: 0px 0px 20px 10px rgba(200,255,200,1);
 	transform: scale(0.98);
@@ -40,18 +41,17 @@ div.left {
 	display: table-cell;
 	background-color: #ffdddd;
 	width: 40vw;
-	height: 100vh;
+	height: 98vh;
 	vertical-align: middle;
-
+	overflow: auto;
 }
 
 div.right {
 	display: table-cell;
 	background-color: #ddffdd;
 	width: 40vw;
-	height: 100vh;
+	height: 98vh;
 	vertical-align: middle;
-	overflow-y: scroll;
 }
 
 div.center {
@@ -63,17 +63,21 @@ div.center {
 }
 
 div.up {
-	margin-top: 20px;
+	display:block;
+	width: 80vw;
+	text-align: center;
+	margin-top: 7px;
+	
 }
 
 div.overlay{
 	position:absolute;
-	top: 10vh;
-	left: 20vw;
+	top: 5vh;
+	left: 10vw;
 	opacity:0.8;
 	padding: 0;
-	width: 60vw;
-	height: 80vh;
+	width: 80vw;
+	height: 90vh;
 	background-color: #ffffdd;
 	display: block;
 	-webkit-transition: opacity 1s ease;
@@ -81,15 +85,21 @@ div.overlay{
 
 div.overlayHidden {
 	position:absolute;
-	top: 10vh;
-	left: 20vw;
+	top: 5vh;
+	left: 10vw;
 	opacity:0.0;
 	padding: 0;
-	width: 60vw;
-	height: 80vh;
+	width: 80vw;
+	height: 90vh;
 	background-color: #ffffdd;
 	display: block;
 	-webkit-transition: opacity 0.7s ease;
+}
+
+#userList {
+	display: block;
+	overflow-y: auto;
+	width: 90vh;
 }
 
 table.users td{
@@ -194,49 +204,42 @@ li a:hover {
 
 
 
+.button {
+  display: inline-block;
+  line-height: 150%;
+  padding-right: 30px;
+  padding-left: 30px;
+  position: relative;
+  background-color:rgb(41,127,184);
+  color:rgb(255,255,255);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  
+  
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  text-shadow:0px 1px 0px rgba(0,0,0,0.5);
+-ms-filter:"progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#ff123852,Positive=true)";zoom:1;
+filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#ff123852,Positive=true);
 
 
-
-
-
-
-
-
-.aqua-button {
-	clear: inherit;
-	background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#529DFF), to(#376CBF));
-	display:block;
-	height:21px;
-	width:130px;
-	-webkit-border-radius:14px;
-	font-size:13px;
-	color:white;
-	text-decoration:none;
-	border:1px solid #2a62ab;
-	position:relative;
-	padding:6px 1px 1px 1px;
-	text-align:center;
-	text-shadow:1px 1px 1px #000;
-	font-weight:bold;
-	-webkit-box-shadow:0px 1px 2px #999;
-}
-.aqua-button span.shine {
-	position:absolute;
-	height:20px;
-	width:126px;
-	-webkit-border-radius:14px;
-	margin:-5px 0 0 2px;
-	background-image: -webkit-gradient(linear, 0% 0%, 0% 50%, from(rgba(132, 213, 255, 0.8)), to(rgba(132, 213, 255, 0.0)));
-	border-top:1px solid #b5e1ff;
-}
-.aqua-button span.glow {
-	position:absolute;
-	height:10px;
-	width:120px;
-	margin:10px 0 0 5px;
-	-webkit-border-radius:15px;
-	background-image: -webkit-gradient(linear, 0% 0%, 0% 95%, from(rgba(198, 242, 255, 0.0)), to(rgba(105, 172, 232, 1.0)));
-	border-bottom:1px solid #85c0f6;
+	box-shadow:0px 2px 2px rgba(0,0,0,0.2);
+	-ms-filter:"progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=2,Color=#33000000,Positive=true)";
+	filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=2,Color=#33000000,Positive=true);
 }
 
+.button:active {
+	box-shadow:1px 3px 1px rgba(255,255,255,0.5);
+	-ms-filter:"progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#ccffffff,Positive=true)";
+	filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#ccffffff,Positive=true);
+}
+
+.button:HOVER {
+	background: linear-gradient(
+      rgba(41,127,184, 0.9), 
+      rgba(39,126,182, 0.9));
+	
 }

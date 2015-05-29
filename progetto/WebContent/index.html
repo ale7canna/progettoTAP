@@ -12,7 +12,7 @@
 <body>
 	<div class="container">
 	<div class="up">
-				<p>This is my Twitter Analytics Project</p>
+				This is my Twitter Analytics Project
 	</div>
 	<div class="left">
 			
@@ -24,10 +24,13 @@
 		<div class="right">
 			<div>
 				<h1>Ciao Search</h1>
-				<form method="POST" action ="/progetto/Application">
-					<input type="text" name="userSearch">
-					<input type="submit">
-				</form>
+				<span>
+					<form name="formRicerca" method="POST" action ="/progetto/Application">
+						<input type="text" name="userSearch">
+						<a href="#" class="button" onclick="formRicerca.submit()">Cerca</a>
+					</form>
+					
+				</span>
 			</div>
 		</div>
 	</div>

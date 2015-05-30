@@ -15,7 +15,29 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>User Information</title>
 <link href="../css/style.css" rel="stylesheet" type="text/css">
+<script src="../js/jquery-1.11.3.min.js"></script>
 
+	<%! 	
+		
+		public void aggiungiUtente(ArrayList<Utente> lista, Utente user)
+		{
+			for(Utente u: lista) {
+				if (u.id == user.id)
+					return;
+			}
+			lista.add(user);
+		}
+	
+		public void aggiungiArco(ArrayList<Arco> lista, Arco arco)
+		{
+			for(Arco a: lista) {
+				if ( (a.idSource == arco.idSource) && (a.idTarget == arco.idTarget) )
+					return;
+			}
+			lista.add(arco);
+		}
+	%>
+	
 	<% 	
 		Twitter twitter = (Twitter)session.getAttribute("twitter");
 		
@@ -44,14 +66,13 @@
 	<div class="container">
 		<div class="left">
 			<div class="center">
-				<table>
+				<table style="margin: auto">
 					<tr>
 						<td>
 							<% 	Utente utente = new Utente();
 								utente.id = user.getId();
 								utente.url = user.getBiggerProfileImageURL();
-								if (!listaUtenti.contains(utente))
-									listaUtenti.add(utente);
+								aggiungiUtente(listaUtenti, utente);
 							%>
 							<img src="<%= user.getOriginalProfileImageURL()  %>" width="256px" height="256px">
 						</td>
@@ -76,63 +97,69 @@
 			</div>
 		</div>
 		<div class="right">
-			<form name="formFollower" method="get" action="follower.jsp">
-				<div id="userList" style="display:block">
-					<table class="users" align="center">
-					<%	
-						int k = 0;
-						for(long id: listaIDs.getIDs())
-						{	
-							User u = twitter.showUser(id);
-							if (k % 2 == 0)
-								out.println("<tr>");
-					%>
+			<div class="center">
+				<form name="formFollower" method="get" action="follower.jsp">
+					<div id="userList" class="shadow">
+						<h2>Selezionare i profili da analizare</h2>
+						<table class="users" align="center">
+						<%	
+							int k = 0;
+							for(long id: listaIDs.getIDs())
+							{	
+								User u = twitter.showUser(id);
+								if (k % 2 == 0)
+									out.println("<tr>");
+						%>
+							
+								<td><input type="checkbox" id="<%= u.getId() %>" name="follower" value="<%= u.getId() %>"></td>
+								<td><img src="<%= u.getProfileImageURL() %>" onclick="$('#<%= u.getId() %>').prop('checked', !$('#<%= u.getId() %>').prop('checked'));"></td>
+								
+								<td class="nomeUtente">
+									<p class="pNomeUtente" style="display: block">
+										<%=u.getName()%>
+									</p>
+								</td>
+								
 						
-							<td><input type="checkbox" name="follower" value="<%= u.getId() %>"></td>
-							<td><img src="<%= u.getProfileImageURL() %>"></td>
-							<td class="nomeUtente"><%=u.getName()%></td>
-					
-					<%		
-							if (k % 2 == 1)
-								out.println("</tr>");
-							k++;		
+						<%		
+								if (k % 2 == 1)
+									out.println("</tr>");
+								k++;		
+								
+								
+								Utente utente2 = new Utente();
+								utente2.id = u.getId();
+								utente2.url = u.getBiggerProfileImageURL();
 							
-							
-							Utente utente2 = new Utente();
-							utente2.id = u.getId();
-							utente2.url = u.getBiggerProfileImageURL();
-						
-							if (!listaUtenti.contains(utente2))
-								listaUtenti.add(utente2);
-							
-							Arco a = new Arco();
-							a.idSource = utente.id;
-							a.idTarget = utente2.id;
-							
-							if (!listaArchi.contains(a))
-								listaArchi.add(a);
-						
-							if (k > 160)
-								break;
-							
-						}
-					%>
-					</table>
-					</div>
-					<span>
-					<table align="center">
-						<tr>
-							<td>
-								<a href="#" class="button" onclick="formFollower.submit()">Invia</a>
-							</td>
-						</tr>
-					</table>
-					</span>
-					<% 	session.setAttribute("listaUtenti", listaUtenti);
-						session.setAttribute("listaArchi", listaArchi);
-					%>
+								aggiungiUtente(listaUtenti, utente2);
+								
+								Arco a = new Arco();
+								a.idSource = utente.id;
+								a.idTarget = utente2.id;
+								
+								aggiungiArco(listaArchi, a);
+								
+								if (k > 160)
+									break;
+								
+							}
+						%>
+						</table>
+						</div>
+
+						<table align="center">
+							<tr>
+								<td>
+									<a href="#" class="button" onclick="formFollower.submit()">Invia</a>
+								</td>
+							</tr>
+						</table>
+						<% 	session.setAttribute("listaUtenti", listaUtenti);
+							session.setAttribute("listaArchi", listaArchi);
+						%>
+					</form>
 				</div>
-			</form>
+			</div>
 		</div> 
 		
 	</div>

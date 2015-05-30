@@ -46,10 +46,6 @@
 	
 		});
 
-		function chiama(){
-			addNodeToGraph('ciao', 'http://pbs.twimg.com/profile_images/538427649610506240/j-p9SF3y_normal.jpeg');
-			addEdge('marzo', 'ciao');
-		}
 	</script>
 	
 	
@@ -58,8 +54,29 @@
 
 
 
-	<% 	
+	<%! 	
 		
+		public void aggiungiUtente(ArrayList<Utente> lista, Utente user)
+		{
+			for(Utente u: lista) {
+				if (u.id == user.id)
+					return;
+			}
+			lista.add(user);
+		}
+	
+		public void aggiungiArco(ArrayList<Arco> lista, Arco arco)
+		{
+			for(Arco a: lista) {
+				if ( (a.idSource == arco.idSource) && (a.idTarget == arco.idTarget) )
+					return;
+			}
+			lista.add(arco);
+		}
+	%>
+	<%
+	
+	
 		Twitter twitter = (Twitter)session.getAttribute("twitter");
 		User myUser = (User)session.getAttribute("myUser");	
 	
@@ -78,7 +95,10 @@
 		ArrayList<Utente> listaUtenti = new ArrayList<Utente>();
 		
 		for (Utente myFol: listaFollowerUtenti)
-			listaUtenti.add(myFol);
+			aggiungiUtente(listaUtenti, myFol);
+		
+		
+		
 		
 	%>
 	
@@ -87,7 +107,7 @@
 	<div class="container">
 		<div class="left" style="vertical-align: baseline;">
 	
-			<div class="followersfloor">
+			<div class="followersfloor" style="height: 90vh; overflow-y: auto">
 				<!-- INIZIO UTENTE AUTENTICATO -->
 				<table>
 						<tr>
@@ -107,11 +127,10 @@
 							 	<%=myUser.getFollowersCount() %>
 							</td>
 							<% 
-								Utente utente = new Utente();
+								/*Utente utente = new Utente();
 								utente.id = myUser.getId();
 								utente.url = myUser.getBiggerProfileImageURL();
-								if (!listaUtenti.contains(utente))
-									listaUtenti.add(utente);
+								aggiungiUtente(listaUtenti, utente);*/
 							 %>
 						</tr>
 				</table>
@@ -189,20 +208,15 @@
 															utente3.id = user.getId();
 															utente3.url = user.getBiggerProfileImageURL();
 								
-															if (!listaUtenti.contains(utente3))
-																listaUtenti.add(utente3);
+															aggiungiUtente(listaUtenti, utente3);
 															
 															Arco a1 = new Arco();
 															a1.idSource = utente2.id;
 															a1.idTarget = utente3.id;
 															
-															if (!listaArchi.contains(a1))
-																listaArchi.add(a1);
+															aggiungiArco(listaArchi, a1);
 														 %>
 											<!-- FINE FOLLOWER di FOLLOWER -->
-														<div class="espandibile">
-															
-														</div>
 													</div>																				
 									<% 	
 										}
@@ -274,6 +288,7 @@
 					}
 				%>
 			aggiornaLayout();
+			alert("ciaociao");
 		}
 	
 	</script>		

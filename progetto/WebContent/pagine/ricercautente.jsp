@@ -34,10 +34,10 @@
 					
 				<span style="display: table-cell; width:100vw; height: 13vh; vertical-align: bottom; text-align: center"><h2>Risultati della ricerca utente</h2></span>
 
-				
-				<div style="overflow-y: auto; height: 85vh">
-					<form method="GET" action="userinfo.jsp" style=" width:100%; height:100%">
-						<input type="submit" value="premi">
+				<a href="#" class="button" onclick="formSearch.submit()">Visualizza</a>
+				<div class="shadow" style="overflow-y: auto; height: 75vh">
+					<form method="GET" name="formSearch" action="userinfo.jsp" style=" width:100%; height:100%">
+						
 						<table class="users" align="center">
 						<%	
 							for (User u : result) {

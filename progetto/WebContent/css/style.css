@@ -1,28 +1,36 @@
 @CHARSET "ISO-8859-1";
 
+html {
+	overflow-y: hidden;
+}
+
 body {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 	margin: 0px;
 }
 
+div {
+	border-radius: 7px;
+}
+
 div.container {
-	background-color: #ddddff;
+	background: rgba(0, 132, 180, 0.3);
 	width: auto;
 	height: 99vh;
 	vertical-align: middle;
 	text-align: center;
-	padding: 5px 10vw;
+	padding: 10px 10vw;
 	transform: scale(1);
 	-webkit-transition: transform 1s ease;
 }
 
 div.containerblur {
-	background-color: #ddddff;
+	background: rgba(0, 132, 180, 0.3);
 	width: auto;
 	height: 99vh;
 	vertical-align: middle;
 	text-align: center;
-	padding: 5px 10vw;
+	padding: 10px 10vw;
 	
 	box-shadow: 0px 0px 20px 10px rgba(200,255,200,1);
 	transform: scale(0.98);
@@ -39,23 +47,27 @@ div.containerblur img {
 
 div.left {
 	display: table-cell;
-	background-color: #ffdddd;
+	/*background-color: #ffdddd;*/
 	width: 40vw;
-	height: 98vh;
+	height: 97vh;
 	vertical-align: middle;
 	overflow: auto;
+	
+	box-shadow: 0px 0px 50px 2px rgba(0, 132, 180, 0.5);
 }
 
 div.right {
 	display: table-cell;
-	background-color: #ddffdd;
+	/*background-color: #ddffdd;*/
 	width: 40vw;
-	height: 98vh;
+	height: 97vh;
 	vertical-align: middle;
+	
+	box-shadow: 0px 0px 50px 2px rgba(0, 132, 180, 0.5);
 }
 
 div.center {
-	display: table-cell;
+	display: block;
 	font-size: 15px;
 	vertical-align: middle;
 	width: 40vw;
@@ -78,28 +90,32 @@ div.overlay{
 	padding: 0;
 	width: 80vw;
 	height: 90vh;
-	background-color: #ffffdd;
+	background: rgba(0, 138, 180, 0.8);
 	display: block;
-	-webkit-transition: opacity 1s ease;
+	-webkit-transition: opacity 1s ease, width 0.1s ease, height 0.1s ease;
+	border-radius: 25px;
 }
 
 div.overlayHidden {
 	position:absolute;
-	top: 5vh;
+	top: 5vw;
 	left: 10vw;
 	opacity:0.0;
 	padding: 0;
 	width: 80vw;
 	height: 90vh;
-	background-color: #ffffdd;
+	background: rgba(0, 138, 180, 0.8);
 	display: block;
-	-webkit-transition: opacity 0.7s ease;
+	-webkit-transition: opacity 0.8s ease, width 1s ease, height 1s ease;
+	border-radius: 25px;
 }
 
 #userList {
 	display: block;
 	overflow-y: auto;
-	width: 90vh;
+	width: 90%;
+	height: 75vh;
+	margin: 10px auto;
 }
 
 table.users td{
@@ -107,15 +123,21 @@ table.users td{
 }
 
 table.users td.nomeUtente{
+	width: 175px;
 	-webkit-transition: padding-left 0.5s ease, background-color 0.5s ease;
 	transition: padding-left 0.5s ease, background-color 0.5s ease;
 }
 
 table.users td.nomeUtente:HOVER{
-	display:block;
-	padding-left: 15px;
-	background: #ffffff;
 	
+	background: rgba(0, 138, 180, 0.2);
+	
+}
+
+.pNomeUtente:HOVER {
+	padding-left: 15px;
+	text-shadow: 0px 0px 10px rgba(100, 100, 158, 0.9);
+	transition: padding-left 0.5s ease, background-color 0.5s ease;
 }
 
 input[type=checkbox] {
@@ -140,7 +162,9 @@ td.userFollowersCount {
 	
 }
 	
-
+.shadow {
+	box-shadow: 0px 0px 25px 2px rgba(0, 132, 180, 0.5);
+}
 
 
 

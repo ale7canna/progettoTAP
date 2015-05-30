@@ -102,11 +102,11 @@ div.overlayHidden {
 	left: 10vw;
 	opacity:0.0;
 	padding: 0;
-	width: 80vw;
-	height: 90vh;
+	width: 0px;
+	height: 0px;
 	background: rgba(0, 138, 180, 0.8);
 	display: block;
-	-webkit-transition: opacity 0.8s ease, width 1s ease, height 1s ease;
+	-webkit-transition: opacity 0.8s ease, width 10s ease, height 10s ease;
 	border-radius: 25px;
 }
 

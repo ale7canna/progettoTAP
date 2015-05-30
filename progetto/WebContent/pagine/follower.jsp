@@ -288,7 +288,6 @@
 					}
 				%>
 			aggiornaLayout();
-			alert("ciaociao");
 		}
 	
 	</script>		

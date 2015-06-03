@@ -61,20 +61,6 @@ function disegnaGrafo(){
 	  this.style('height', this.height() / zoomFactor);
   });
   
-  
-  
-  
-  $('a').each(function () {
-        $(this).qtip({
-            content: 'Ciao CIao',
-            hide: {
-                fixed: true,
-                delay: 300
-            }
-        });
-    });
-
-
 }; 
 
 
@@ -154,14 +140,13 @@ function aggiornaLayout()
 	
 };
 
-function prova()
+function ridimensionaGrafo()
 {
-	alert("1");
+	cy.resize();
+	
 	var layout = cy.makeLayout({
 		  name: 'concentric'
 		});
 
 	layout.run();
-	
-	alert("2");
 }

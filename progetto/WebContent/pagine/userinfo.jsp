@@ -48,15 +48,10 @@
 			user = (User) session.getAttribute("user");
 		else {
 			try {
-				user = twitter.showUser(userID);
+				user = twitter.showUser(Long.parseLong(userID));
 			}
 			catch (TwitterException e) {
-				%>
-				
-				<script>
-					redirect("/progetto/pagine/error.html");
-				</script>
-				<%
+				response.sendRedirect("/progetto/pagine/error.html");
 			}
 		}
 			
@@ -130,12 +125,7 @@
 									u = twitter.showUser(id);
 								}
 								catch (TwitterException e) {
-									%>
-									
-									<script>
-										redirect("/progetto/pagine/error.html");
-									</script>
-									<%
+										response.sendRedirect("/progetto/pagine/error.html");
 								}
 								
 								
@@ -143,7 +133,6 @@
 								if (k % 2 == 0)
 									out.println("<tr>");
 						%>
-							
 								<td><input type="checkbox" id="<%= u.getId() %>" name="follower" value="<%= u.getId() %>"></td>
 								<td><img src="<%= u.getProfileImageURL() %>" onclick="$('#<%= u.getId() %>').prop('checked', !$('#<%= u.getId() %>').prop('checked'));"></td>
 								

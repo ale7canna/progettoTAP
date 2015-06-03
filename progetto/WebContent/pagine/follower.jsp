@@ -9,9 +9,10 @@
 <%@page import="twitter4j.Twitter"%>
 <%@page import="connessione.Utente" %>
 <%@page import="connessione.Arco" %>
+<%@page errorPage="error.jsp" %>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -48,7 +49,7 @@
 				});			
 
 			aggiungi();
-			$("#cy").css("display", "none");
+			//$("#cy").css("display", "none");
 		});
 		
 
@@ -91,7 +92,8 @@
 		User followers[] = new User[id.length];
 		
 		int k = 0;
-		for (String s: id){
+		for (String s: id)
+		{
 			followers[k++] = twitter.showUser(Long.parseLong(s));
 		}		
 		
@@ -124,7 +126,7 @@
 								<img src="<%= myUser.getProfileImageURL()%>">
 							</td>
 							<td class="userName">
-								<%= myUser.getName() %>
+								<a href="userinfo.jsp?userID=<%=myUser.getId()%>"><%= myUser.getName() %></a>
 							</td>
 							<td class="userFollowersCountSentence">
 								User followers count:
@@ -159,7 +161,7 @@
 											<img src="<%= u.getProfileImageURL()%>">
 										</td>
 										<td class="userName">
-											<%= u.getName() %>
+											<a href="userinfo.jsp?userID=<%= u.getId()%>"><%= u.getName() %></a>
 										</td>
 										<td class="userFollowersCountSentence">
 											User followers count:
@@ -188,20 +190,8 @@
 								<div class="espandibile">
 														
 									<%		
-										PagableResponseList<User> innerFollowers = null;
-										try {
-											innerFollowers = twitter.getFollowersList(u.getId(), -1);
-										}
-										catch (TwitterException e)
-										{
-									%>
-									
-										<script>
-											redirect("/progetto/pagine/error.html");
-										</script>
-									<%		
-									
-										}
+										PagableResponseList<User> innerFollowers = twitter.getFollowersList(u.getId(), -1);
+										
 										for(User user:innerFollowers){
 									%>				
 											<!-- INIZIO FOLLOWER di FOLLOWER -->									
@@ -212,7 +202,7 @@
 																	<img src="<%= user.getProfileImageURL()%>">
 																</td>
 																<td class="userName">
-																	<%= user.getName() %>
+																	<a href="userinfo.jsp?userID=<%=user.getId()%>"><%= user.getName() %></a>
 																</td>
 																<td class="userFollowersCountSentence">
 																	User followers count:
@@ -254,35 +244,44 @@
 	
 		</div>
 		
-		<div class="right" style="vertical-align: top;">
+		<div class="right" style="vertical-align: middle;">
 			<a href="#" class="button" onclick="mostraGrafo()">Mostra il grafo</a>
 			
 		</div>
 	</div>
 
-
 	<div class="overlayHidden" id="cy">
 	</div>
 	
+	<div class="overlayHidden" style="position:absolute; top: 5vh; left: 10vw">
+		<a href="#" class="button" onclick="mostraGrafo()">Chiudi</a>
+	</div>
+	
+
+	
+	
 	<script>
-	var mostrato = true;
+	var mostrato = false;
 	
 	function mostraGrafo()
 	{
-		if (mostrato == true) {
-			$("#cy").css("display", "block");
+		if (mostrato == false) {
+//			$("#cy").css("display", "block");
 			$('.container').removeClass('container').addClass('containerblur');
 			$('.overlayHidden').removeClass('overlayHidden').addClass('overlay');
-			mostrato = false;
+			
+			setTimeout(function() {
+				ridimensionaGrafo();	
+			}, 300);
+			
+			mostrato = true;
 			
 		}
 		else {
 			$('.containerblur').removeClass('containerblur').addClass('container');
 			$('.overlay').removeClass('overlay').addClass('overlayHidden');
-			mostrato = true;
-			setTimeout(function() {
-				$("#cy").css("display", "none");
-			}, 10000);
+			mostrato = false;
+			
 		}
 		
 	}
@@ -306,7 +305,7 @@
 					}
 				%>
 			aggiornaLayout();
-			alert("Ciao");
+
 		}
 	
 	</script>		

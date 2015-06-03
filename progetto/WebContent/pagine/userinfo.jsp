@@ -1,3 +1,4 @@
+<%@page import="twitter4j.TwitterException"%>
 <%@page import="twitter4j.PagableResponseList"%>
 <%@page import="twitter4j.IDs"%>
 <%@page import="twitter4j.User"%>
@@ -43,12 +44,20 @@
 		
 		String userID = request.getParameter("userID");
 		User user = null;
-		if (userID != null)
-			user = twitter.showUser(Long.parseLong(userID));
+		if (userID == null)
+			user = (User) session.getAttribute("user");
 		else {
+			try {
+				user = twitter.showUser(userID);
+			}
+			catch (TwitterException e) {
+				%>
 				
-			user = twitter.showUser((long)session.getAttribute("userID"));
-			
+				<script>
+					redirect("/progetto/pagine/error.html");
+				</script>
+				<%
+			}
 		}
 			
 		session.setAttribute("myUser", user);
@@ -64,6 +73,9 @@
 </head>
 <body>
 	<div class="container">
+		<div class="up">
+			<a href="/progetto/"><img src="../resources/home.png" width="30px"></a>
+		</div>
 		<div class="left">
 			<div class="center">
 				<table style="margin: auto">
@@ -101,12 +113,33 @@
 				<form name="formFollower" method="get" action="follower.jsp">
 					<div id="userList" class="shadow">
 						<h2>Selezionare i profili da analizare</h2>
+						<table align="center">
+							<tr>
+								<td>
+									<a href="#" class="button" onclick="formFollower.submit()">Invia</a>
+								</td>
+							</tr>
+						</table>
 						<table class="users" align="center">
 						<%	
 							int k = 0;
 							for(long id: listaIDs.getIDs())
 							{	
-								User u = twitter.showUser(id);
+								User u = null;
+								try {
+									u = twitter.showUser(id);
+								}
+								catch (TwitterException e) {
+									%>
+									
+									<script>
+										redirect("/progetto/pagine/error.html");
+									</script>
+									<%
+								}
+								
+								
+								
 								if (k % 2 == 0)
 									out.println("<tr>");
 						%>
@@ -147,13 +180,7 @@
 						</table>
 						</div>
 
-						<table align="center">
-							<tr>
-								<td>
-									<a href="#" class="button" onclick="formFollower.submit()">Invia</a>
-								</td>
-							</tr>
-						</table>
+						
 						<% 	session.setAttribute("listaUtenti", listaUtenti);
 							session.setAttribute("listaArchi", listaArchi);
 						%>

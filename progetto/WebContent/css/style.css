@@ -91,21 +91,21 @@ div.overlay{
 	height: 90vh;
 	background: rgba(0, 138, 180, 0.8);
 	display: block;
-	-webkit-transition: opacity 1s ease, width 0.1s ease, height 0.1s ease;
+	-webkit-transition: opacity 1s ease, left 0.1s ease, height 0.1s ease;
 	border-radius: 25px;
 }
 
 div.overlayHidden {
 	position:absolute;
-	top: 5vw;
+	top: 5vh;
 	left: 10vw;
 	opacity:0.0;
 	padding: 0;
-	width: 0px;
-	height: 0px;
+	width: 80vw;
+	height: 90vh;
 	background: rgba(0, 138, 180, 0.8);
 	display: block;
-	-webkit-transition: opacity 0.8s ease, width 10s ease, height 10s ease;
+	-webkit-transition: opacity 0.8s ease, left 10s ease, height 10s ease;
 	border-radius: 25px;
 }
 

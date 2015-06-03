@@ -20,7 +20,9 @@
 <link href="../css/style.css" rel="stylesheet" type="text/css">
 	
 
-<script src="../js/grafop.js"></script>	
+<script src="../js/grafop.js"></script>
+<script src="../js/script.js"></script>	
+
 
 <script src="../js/jquery-1.11.3.min.js"></script>
 <script src="../js/cytoscape.min.js"></script>
@@ -46,6 +48,7 @@
 				});			
 
 			aggiungi();
+			$("#cy").css("display", "none");
 		});
 		
 
@@ -84,7 +87,7 @@
 		User myUser = (User)session.getAttribute("myUser");	
 	
 		String id[] = request.getParameterValues("follower");
-		
+			
 		User followers[] = new User[id.length];
 		
 		int k = 0;
@@ -191,7 +194,13 @@
 										}
 										catch (TwitterException e)
 										{
-											
+									%>
+									
+										<script>
+											redirect("/progetto/pagine/error.html");
+										</script>
+									<%		
+									
 										}
 										for(User user:innerFollowers){
 									%>				
@@ -256,25 +265,24 @@
 	</div>
 	
 	<script>
-	var disegnato = true;
 	var mostrato = true;
 	
 	function mostraGrafo()
 	{
 		if (mostrato == true) {
+			$("#cy").css("display", "block");
 			$('.container').removeClass('container').addClass('containerblur');
 			$('.overlayHidden').removeClass('overlayHidden').addClass('overlay');
 			mostrato = false;
+			
 		}
 		else {
 			$('.containerblur').removeClass('containerblur').addClass('container');
 			$('.overlay').removeClass('overlay').addClass('overlayHidden');
 			mostrato = true;
-		}
-		
-		if (disegnato == false){
-			aggiungi();
-			disegnato = true;				
+			setTimeout(function() {
+				$("#cy").css("display", "none");
+			}, 10000);
 		}
 		
 	}

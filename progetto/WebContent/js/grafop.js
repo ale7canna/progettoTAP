@@ -153,3 +153,15 @@ function aggiornaLayout()
 
 	
 };
+
+function prova()
+{
+	alert("1");
+	var layout = cy.makeLayout({
+		  name: 'concentric'
+		});
+
+	layout.run();
+	
+	alert("2");
+}

@@ -43,7 +43,7 @@ function disegnaGrafo(){
 	        
 	    layout: {
 				    name: 'concentric',
-				    directed: true,
+				    directed: false,
 				    padding: 10
 				  }
   }); // cy init
@@ -150,14 +150,6 @@ function aggiornaLayout()
 		  
 		  id = id + 1;
 	  });
+
 	
-	for (k = 0; k < cy.nodes().length; k++){
-		string = "#qtip-" + (k + 1).toString();
-		$(string).qtip({
-			content: "Azz"
-			
-			
-		});
-	}
-	  
 };

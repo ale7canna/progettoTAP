@@ -1,3 +1,4 @@
+<%@page import="twitter4j.TwitterException"%>
 <%@page import="com.sun.org.apache.xalan.internal.xsltc.runtime.Hashtable"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
@@ -43,8 +44,10 @@
         			else 
         				$(this).attr("src", "../resources/plus.png")
 				});			
-	
+
+			aggiungi();
 		});
+		
 
 	</script>
 	
@@ -181,8 +184,15 @@
 					<!-- FINE FOLLOWER UTENTE AUTENTICATO -->			
 								<div class="espandibile">
 														
-									<%							
-										PagableResponseList<User> innerFollowers = twitter.getFollowersList(u.getId(), -1);
+									<%		
+										PagableResponseList<User> innerFollowers = null;
+										try {
+											innerFollowers = twitter.getFollowersList(u.getId(), -1);
+										}
+										catch (TwitterException e)
+										{
+											
+										}
 										for(User user:innerFollowers){
 									%>				
 											<!-- INIZIO FOLLOWER di FOLLOWER -->									
@@ -246,7 +256,7 @@
 	</div>
 	
 	<script>
-	var disegnato = false;
+	var disegnato = true;
 	var mostrato = true;
 	
 	function mostraGrafo()
@@ -288,6 +298,7 @@
 					}
 				%>
 			aggiornaLayout();
+			alert("Ciao");
 		}
 	
 	</script>		

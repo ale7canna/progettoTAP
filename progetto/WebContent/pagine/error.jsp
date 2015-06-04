@@ -7,6 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	error
+
+	pagina di errore <br>
+	<% exception.printStackTrace();%>
+	
 </body>
 </html>

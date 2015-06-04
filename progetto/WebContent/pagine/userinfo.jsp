@@ -8,6 +8,7 @@
 <%@page import="java.util.List"%>
 <%@page import="connessione.Utente" %>
 <%@page import="connessione.Arco" %>
+<%@page errorPage="error.jsp" %>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -47,12 +48,8 @@
 		if (userID == null)
 			user = (User) session.getAttribute("user");
 		else {
-			try {
-				user = twitter.showUser(Long.parseLong(userID));
-			}
-			catch (TwitterException e) {
-				response.sendRedirect("/progetto/pagine/error.html");
-			}
+			user = twitter.showUser(Long.parseLong(userID));
+			
 		}
 			
 		session.setAttribute("myUser", user);
@@ -61,6 +58,7 @@
 		
 		ArrayList<Utente> listaUtenti = new ArrayList<Utente>();
 		ArrayList<Arco> listaArchi = new ArrayList<Arco>();
+		ArrayList<User> listaFollower = new ArrayList<User>();
 	
 	%>
 
@@ -69,7 +67,10 @@
 <body>
 	<div class="container">
 		<div class="up">
+			<div class="center" style="width:100%; height:100%">
 			<a href="/progetto/"><img src="../resources/home.png" width="30px"></a>
+			</div>
+			
 		</div>
 		<div class="left">
 			<div class="center">
@@ -79,6 +80,8 @@
 							<% 	Utente utente = new Utente();
 								utente.id = user.getId();
 								utente.url = user.getBiggerProfileImageURL();
+								utente.userName = user.getName();
+								utente.link = "http://twitter.com/" + user.getScreenName();
 								aggiungiUtente(listaUtenti, utente);
 							%>
 							<img src="<%= user.getOriginalProfileImageURL()  %>" width="256px" height="256px">
@@ -88,6 +91,7 @@
 								<tr>
 									<td>
 										<ul>
+											<li><a target="_blank" href="http://www.twitter.com/<%=user.getScreenName()%>"><img width="40px" src="../resources/twitter.png"></a>
 											<li><a href="#"><%= user.getName() %></a></li>
 											<li><a href="#"><%= user.getLocation() %></a></li>										
 											<li><a href="#">Following count <%= user.getFriendsCount() %></a></li>
@@ -106,8 +110,7 @@
 		<div class="right">
 			<div class="center">
 				<form name="formFollower" method="get" action="follower.jsp">
-					<div id="userList" class="shadow">
-						<h2>Selezionare i profili da analizare</h2>
+					<h2>Selezionare i profili da analizare</h2>
 						<table align="center">
 							<tr>
 								<td>
@@ -115,28 +118,22 @@
 								</td>
 							</tr>
 						</table>
+					<div id="userList" class="shadow">
+						
 						<table class="users" align="center">
 						<%	
 							int k = 0;
 							for(long id: listaIDs.getIDs())
 							{	
-								User u = null;
-								try {
-									u = twitter.showUser(id);
-								}
-								catch (TwitterException e) {
-										response.sendRedirect("/progetto/pagine/error.html");
-								}
-								
-								
+								User u = twitter.showUser(id);
 								
 								if (k % 2 == 0)
 									out.println("<tr>");
 						%>
-								<td><input type="checkbox" id="<%= u.getId() %>" name="follower" value="<%= u.getId() %>"></td>
-								<td><img src="<%= u.getProfileImageURL() %>" onclick="$('#<%= u.getId() %>').prop('checked', !$('#<%= u.getId() %>').prop('checked'));"></td>
+								<td ><input type="checkbox" id="<%= u.getId() %>" name="follower" value="<%= u.getId() %>"></td>
+								<td onclick="$('#<%= u.getId() %>').prop('checked', !$('#<%= u.getId() %>').prop('checked'));"><img src="<%= u.getProfileImageURL() %>" ></td>
 								
-								<td class="nomeUtente">
+								<td class="nomeUtente" onclick="$('#<%= u.getId() %>').prop('checked', !$('#<%= u.getId() %>').prop('checked'));">
 									<p class="pNomeUtente" style="display: block">
 										<%=u.getName()%>
 									</p>
@@ -148,10 +145,13 @@
 									out.println("</tr>");
 								k++;		
 								
+								listaFollower.add(u);
 								
 								Utente utente2 = new Utente();
 								utente2.id = u.getId();
 								utente2.url = u.getBiggerProfileImageURL();
+								utente2.userName = u.getName();
+								utente2.link = "http://twitter.com/" + u.getScreenName();
 							
 								aggiungiUtente(listaUtenti, utente2);
 								
@@ -172,6 +172,7 @@
 						
 						<% 	session.setAttribute("listaUtenti", listaUtenti);
 							session.setAttribute("listaArchi", listaArchi);
+							session.setAttribute("listaFollower", listaFollower);
 						%>
 					</form>
 				</div>

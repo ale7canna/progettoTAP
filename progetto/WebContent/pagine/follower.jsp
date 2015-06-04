@@ -1,7 +1,8 @@
+<%@page import="twitter4j.RateLimitStatus"%>
 <%@page import="twitter4j.TwitterException"%>
 <%@page import="com.sun.org.apache.xalan.internal.xsltc.runtime.Hashtable"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="java.util.List"%>
+<%@page import="java.util.*"%>
 <%@page import="twitter4j.PagableResponseList"%>
 <%@page import="twitter4j.IDs"%>
 <%@page import="twitter4j.User"%>
@@ -49,7 +50,6 @@
 				});			
 
 			aggiungi();
-			//$("#cy").css("display", "none");
 		});
 		
 
@@ -80,6 +80,16 @@
 			}
 			lista.add(arco);
 		}
+		
+		public boolean isInFollower(long id, String[] ids)
+		{
+			for (String s: ids)
+			{
+					if (id == Long.parseLong(s))
+						return true;
+			}
+			return false;
+		}
 	%>
 	<%
 	
@@ -87,20 +97,15 @@
 		Twitter twitter = (Twitter)session.getAttribute("twitter");
 		User myUser = (User)session.getAttribute("myUser");	
 	
-		String id[] = request.getParameterValues("follower");
+		String idsRequest[] = request.getParameterValues("follower");
 			
-		User followers[] = new User[id.length];
-		
-		int k = 0;
-		for (String s: id)
-		{
-			followers[k++] = twitter.showUser(Long.parseLong(s));
-		}		
 		
 		ArrayList<Utente> listaFollowerUtenti = (ArrayList<Utente>)session.getAttribute("listaUtenti");
 		ArrayList<Arco> listaArchi = (ArrayList<Arco>)session.getAttribute("listaArchi");
 		
 		ArrayList<Utente> listaUtenti = new ArrayList<Utente>();
+		
+		ArrayList<User> listaFollower = (ArrayList<User>)session.getAttribute("listaFollower");
 		
 		for (Utente myFol: listaFollowerUtenti)
 			aggiungiUtente(listaUtenti, myFol);
@@ -113,14 +118,28 @@
 </head>
 <body>
 	<div class="container">
+		<div class="up">
+			<div class="center" style="width:100%; height:100%">
+			<table style="margin: auto">
+				<tr>
+					<td style="padding: 0 1vw"><a href="/progetto/"><img src="../resources/home.png" width="30px"></a></td>
+					<td style="padding: 0 1vw"><a href="/progetto/pagine/userinfo.jsp"><img src="../resources/profile.jpg" title="Go to profile information" width="30px"></a></td>
+					<td style="padding: 0 1vw"><img id="limitButton" src="../resources/plus.png" width="30px"></td>
+				</tr>
+			</table>
+			
+			</div>
+			
+		</div>
+	
 		<div class="left" style="vertical-align: baseline;">
 	
-			<div class="followersfloor" style="height: 90vh; overflow-y: auto">
+			<div class="followersfloor" style="height: 86vh; overflow-y: auto">
 				<!-- INIZIO UTENTE AUTENTICATO -->
 				<table>
 						<tr>
 							<td>
-								<img class="toggle" src="../resources/minus.png" width="20px">
+								<a href="#"><img class="toggle" src="../resources/minus.png" width="20px"></a>
 							</td>
 							<td> 
 								<img src="<%= myUser.getProfileImageURL()%>">
@@ -149,15 +168,29 @@
 					
 					<!-- INIZIO FOLLOWER UTENTE AUTENTICATO -->		
 					<%	
-						for(User u:followers){					
+						for(User u:listaFollower){					
 					%>		
 							<div class="followersfloor">
 								<table style="padding-left: 50px">
 									<tr>
-										<td>
-											<img class="toggle" src="../resources/minus.png" width="20px">
+									
+										<% if (isInFollower(u.getId(), idsRequest)){
+											
+										%>
+										<td style="padding-left: -20px">
+											<a href="#"><img class="toggle" src="../resources/minus.png" width="20px"></a>
 										</td>
-										<td> 
+										
+										<% }
+										else {
+											%>
+											<td style="padding-left: -20px">
+											<a href="#"><img class="toggle" src="../resources/minus.png" style="opacity: 0" width="20px"></a>
+										</td>
+										<%
+										}
+										%>
+										<td style="margin-left:25px"> 
 											<img src="<%= u.getProfileImageURL()%>">
 										</td>
 										<td class="userName">
@@ -174,6 +207,8 @@
 										Utente utente2 = new Utente();
 										utente2.id = u.getId();
 										utente2.url = u.getBiggerProfileImageURL();
+										utente2.userName = u.getName();
+										utente2.link = "http://twitter.com/" + u.getScreenName();
 										/*
 										if (!listaUtenti.contains(utente2))
 											listaUtenti.add(utente2);
@@ -190,44 +225,49 @@
 								<div class="espandibile">
 														
 									<%		
-										PagableResponseList<User> innerFollowers = twitter.getFollowersList(u.getId(), -1);
-										
-										for(User user:innerFollowers){
+										if (isInFollower(u.getId(), idsRequest))
+										{
+											PagableResponseList<User> innerFollowers = twitter.getFollowersList(u.getId(), -1);
+											
+											for(User user:innerFollowers){
 									%>				
-											<!-- INIZIO FOLLOWER di FOLLOWER -->									
-													<div class="followersfloor">
-														<table style="padding-left: 120px">
-															<tr>
-																<td> 
-																	<img src="<%= user.getProfileImageURL()%>">
-																</td>
-																<td class="userName">
-																	<a href="userinfo.jsp?userID=<%=user.getId()%>"><%= user.getName() %></a>
-																</td>
-																<td class="userFollowersCountSentence">
-																	User followers count:
-																</td>
-																<td class="userFollowersCount">
-													 				<%=user.getFollowersCount() %>
-																</td>
-															</tr>
-														</table>
-														<% 
-															Utente utente3 = new Utente();
-															utente3.id = user.getId();
-															utente3.url = user.getBiggerProfileImageURL();
-								
-															aggiungiUtente(listaUtenti, utente3);
-															
-															Arco a1 = new Arco();
-															a1.idSource = utente2.id;
-															a1.idTarget = utente3.id;
-															
-															aggiungiArco(listaArchi, a1);
-														 %>
-											<!-- FINE FOLLOWER di FOLLOWER -->
-													</div>																				
+												<!-- INIZIO FOLLOWER di FOLLOWER -->									
+														<div class="followersfloor">
+															<table style="padding-left: 120px">
+																<tr>
+																	<td> 
+																		<img src="<%= user.getProfileImageURL()%>">
+																	</td>
+																	<td class="userName">
+																		<a href="userinfo.jsp?userID=<%=user.getId()%>"><%= user.getName() %></a>
+																	</td>
+																	<td class="userFollowersCountSentence">
+																		User followers count:
+																	</td>
+																	<td class="userFollowersCount">
+														 				<%=user.getFollowersCount() %>
+																	</td>
+																</tr>
+															</table>
+															<% 
+																Utente utente3 = new Utente();
+																utente3.id = user.getId();
+																utente3.url = user.getBiggerProfileImageURL();
+																utente3.userName = user.getName();
+																utente3.link = "http://twitter.com/" + user.getScreenName();
+									
+																aggiungiUtente(listaUtenti, utente3);
+																
+																Arco a1 = new Arco();
+																a1.idSource = utente2.id;
+																a1.idTarget = utente3.id;
+																
+																aggiungiArco(listaArchi, a1);
+															 %>
+												<!-- FINE FOLLOWER di FOLLOWER -->
+														</div>																				
 									<% 	
+											}
 										}
 									%>
 							
@@ -248,13 +288,14 @@
 			<a href="#" class="button" onclick="mostraGrafo()">Mostra il grafo</a>
 			
 		</div>
+	
 	</div>
 
 	<div class="overlayHidden" id="cy">
 	</div>
 	
-	<div class="overlayHidden" style="position:absolute; top: 5vh; left: 10vw">
-		<a href="#" class="button" onclick="mostraGrafo()">Chiudi</a>
+	<div class="overlayHiddenButton">
+		<a href="#" class="button" style="margin: 0;" onclick="mostraGrafo()">Chiudi</a>
 	</div>
 	
 
@@ -269,6 +310,7 @@
 //			$("#cy").css("display", "block");
 			$('.container').removeClass('container').addClass('containerblur');
 			$('.overlayHidden').removeClass('overlayHidden').addClass('overlay');
+			$('.overlayHiddenButton').removeClass('overlayHiddenButton').addClass('overlayButton');
 			
 			setTimeout(function() {
 				ridimensionaGrafo();	
@@ -280,6 +322,7 @@
 		else {
 			$('.containerblur').removeClass('containerblur').addClass('container');
 			$('.overlay').removeClass('overlay').addClass('overlayHidden');
+			$('.overlayButton').removeClass('overlayButton').addClass('overlayHiddenButton');
 			mostrato = false;
 			
 		}
@@ -292,7 +335,7 @@
 			<% 	for(Utente u: listaUtenti) {
 					
 			%>
-					addNodeToGraph('<%= String.valueOf(u.id) %>', '<%= u.url %>');
+					addNodeToGraph('<%= String.valueOf(u.id) %>', '<%= u.url %>', '<%= u.userName %>', '<%= u.link%>');
 			<%
 				}
 			%>
@@ -306,7 +349,58 @@
 				%>
 			aggiornaLayout();
 
-		}
+	}
+	
+	
+		<% 	String content = "";
+			Map<String ,RateLimitStatus> rateLimitStatus = twitter.getRateLimitStatus();
+			RateLimitStatus status = rateLimitStatus.get("/followers/ids");
+			    /*System.out.println("Endpoint: " + endpoint);
+			    System.out.println(" Limit: " + status.getLimit());
+			    System.out.println(" Remaining: " + status.getRemaining());
+			    System.out.println(" ResetTimeInSeconds: " + status.getResetTimeInSeconds());
+			    System.out.println(" SecondsUntilReset: " + status.getSecondsUntilReset());*/
+			    
+			    content = "Follower search: " + String.valueOf(status.getRemaining()) + "<br>";
+			    
+			    status = rateLimitStatus.get("/followers/list");
+			    content = content + "Follower list: " + String.valueOf(status.getRemaining()) + "<br>";
+			    
+				status = rateLimitStatus.get("/users/show");
+			    content = content + "User Show: " + String.valueOf(status.getRemaining()) + "<br>";
+			    
+			    status = rateLimitStatus.get("/users/search");
+			    content = content + "User Search: " + String.valueOf(status.getRemaining()) + "<br>";
+			    			
+		
+		%>
+	
+	
+		alert("<%=content%>");
+		
+		$("#limitButton").qtip({
+			content: '<%=content %>',
+			
+			position: {
+			    my: 'top center',
+			    at: 'bottom center'
+			  },
+			  style: {
+			    classes: 'qtip-bootstrap myQtip',
+			    
+			    tip: {
+			      width: 16,
+			      height: 8
+			    }
+			  },
+			  show: 'click',
+			  hide: {
+	              fixed: true,
+	              delay: 2000
+	          }
+			
+			
+		});
 	
 	</script>		
 

@@ -1,6 +1,8 @@
 var zoomFactor = 4;
 var zIndex = 1;
 var cy;
+var idUserName = [[]];
+
 
 function toggleGrafo() {
 	$('#cy').toggle();
@@ -64,12 +66,14 @@ function disegnaGrafo(){
 }; 
 
 
-function addNodeToGraph(id, url)
+function addNodeToGraph(id, url, username, link)
 {
 	var eles = cy.add([
 	                   { group: "nodes", data: { id: id }, position: { x: 200, y: 200 } },	                
 	                 ]);
 	cy.$('#'+id).style('background-image', url);
+	idUserName[id] = [username, link];
+	
 	
 };
 
@@ -105,7 +109,7 @@ function aggiornaLayout()
 		  var dc  = cy.elements().dc({root: '#'+ele.id()}).degree; 	// a) Degree Centrality
 		  var cc  = cy.elements().cc({root: '#'+ele.id()}); 		// d) Closeness centrality 
 	
-		  var content = 
+		  var content = "<a target='_blank' href='" + idUserName[ele.id()][1] + "'><p class='qtip-name'>" + idUserName[ele.id()][0] + "</p></a>" + 
 			  			"Degree centrality: " + dc.toFixed(2).toString() + "<BR>" +
 		  				"Degree centrality normalized: " + dcn.degree('#'+ele.id()).toFixed(2).toString() + "<BR>" +
 		  				"Betweeness centrality: " + bc.betweenness('#'+ele.id()).toFixed(2).toString() + "<BR>" +

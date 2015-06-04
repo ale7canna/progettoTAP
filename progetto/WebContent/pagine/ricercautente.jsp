@@ -29,6 +29,12 @@
 </head>
 <body>
 	<div class="container">
+		<div class="up">
+			<div class="center" style="width:100%; height:100%">
+			<a href="/progetto/"><img src="../resources/home.png" width="30px"></a>
+			</div>
+			
+		</div>
 		<div class="left">
 			<div style="height:100%; width: 100%">
 				

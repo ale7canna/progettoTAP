@@ -361,23 +361,29 @@
 			    System.out.println(" ResetTimeInSeconds: " + status.getResetTimeInSeconds());
 			    System.out.println(" SecondsUntilReset: " + status.getSecondsUntilReset());*/
 			    
-			    content = "Follower search: " + String.valueOf(status.getRemaining()) + "<br>";
+			    content = "Follower search: " + String.valueOf(status.getRemaining()) + " Reset time in: " + String.valueOf(status.getSecondsUntilReset()) + "<br>";
 			    
 			    status = rateLimitStatus.get("/followers/list");
-			    content = content + "Follower list: " + String.valueOf(status.getRemaining()) + "<br>";
+			    content = content + "Follower list: " + String.valueOf(status.getRemaining()) + " Reset time in: " + String.valueOf(status.getSecondsUntilReset()) + "<br>";
 			    
-				status = rateLimitStatus.get("/users/show");
-			    content = content + "User Show: " + String.valueOf(status.getRemaining()) + "<br>";
+				status = rateLimitStatus.get("/users/show/:id");
+			    content = content + "User Show: " + String.valueOf(status.getRemaining()) + " Reset time in: " + String.valueOf(status.getSecondsUntilReset()) + "<br>";
 			    
 			    status = rateLimitStatus.get("/users/search");
-			    content = content + "User Search: " + String.valueOf(status.getRemaining()) + "<br>";
-			    			
+			    content = content + "User Search: " + String.valueOf(status.getRemaining()) + " Reset time in: " + String.valueOf(status.getSecondsUntilReset()) + "<br>";
+			    /*
+			content = "";
+			for (String s: rateLimitStatus.keySet())
+			{
+				status = rateLimitStatus.get(s);
+				content = content + "<br><br>" + "EndPoint: " + s + "<br>";
+				content = content + "Limit: " + String.valueOf(status.getLimit()) + " ";
+				content = content + "Reman: " + String.valueOf(status.getRemaining()) + " ";
+			}
+			   */ 			
 		
 		%>
 	
-	
-		alert("<%=content%>");
-		
 		$("#limitButton").qtip({
 			content: '<%=content %>',
 			
@@ -398,11 +404,11 @@
 	              fixed: true,
 	              delay: 2000
 	          }
-			
+		
 			
 		});
 	
-	</script>		
+	</script>	
 
 </body>
 </html>

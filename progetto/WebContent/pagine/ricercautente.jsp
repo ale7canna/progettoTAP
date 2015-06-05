@@ -21,6 +21,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Ricerca utente</title>
 <link href="../css/style.css" rel="stylesheet" type="text/css">
+
+<script src="../js/jquery-1.11.3.min.js"></script>
 	
 	<%
 		List<User> result = (List<User>)session.getAttribute("userResult");
@@ -51,15 +53,17 @@
 						%>
 								<tr>
 									<td>
-										<input type="radio" name="userID" value="<%= u.getId() %>">		
+										<input id="<%= u.getId() %>" type="radio" name="userID" value="<%= u.getId() %>">		
 									</td>
-									<td>
+									<td onclick="$('#<%= u.getId() %>').prop('checked', !$('#<%= u.getId() %>').prop('checked'));">
 										<img src="<%= u.getProfileImageURL() %>" >
 									</td>
-									<td>
+									<td onclick="$('#<%= u.getId() %>').prop('checked', !$('#<%= u.getId() %>').prop('checked'));">
 										<p class="nomeUtente"><%= u.getName() %> </p>
 									</td>
-									<td>Follower count <%= u.getFollowersCount() %></td>
+									<td onclick="$('#<%= u.getId() %>').prop('checked', !$('#<%= u.getId() %>').prop('checked'));">
+										Follower count <%= u.getFollowersCount() %>
+									</td>
 								</tr>
 								
 								
@@ -77,7 +81,7 @@
 		<div class="right">
 		
 			<div>
-				<h1>Ciao Search</h1>
+				<p>Enter name to search for profiles</p>
 				<form method="POST" name="formRicerca" action ="/progetto/Application">
 					<input type="text" name="userSearch">
 					<a href="#" class="button" onclick="formRicerca.submit()">Cerca</a>

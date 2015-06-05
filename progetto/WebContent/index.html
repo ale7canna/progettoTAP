@@ -11,24 +11,25 @@
 </head>
 <body>
 	<div class="container">
-	<div class="up">
-			<div class="center" style="width:100%; height:100%">
-			<a href="/progetto/"><img src="resources/home.png" width="30px"></a>
-			Twitter Analytics Project
-			
-			</div>
-			
+		<div class="up">
+				<div class="center" style="width:100%; height:100%">
+					<a href="/progetto/"><img src="resources/home.png" width="30px"></a>
+				</div>
+				
 		</div>
-	<div class="left">
-			
+		
+		<div class="left"">
+				
+				<div>
+					<h5>Twitter Analytics Project allows you to log in twitter and analyze social metrics</h5>
+					<p>Press twitter button to login</p>
+					<a href="/progetto/SignIn"><img src="resources/sign-in.png"></a>
+				</div>
+		</div>
+		<div class="right"">
 			<div>
-				<p>Press twitter button to login</p>
-				<img src="resources/sign-in.png" onClick="redirect('/progetto/SignIn')">
-			</div>
-	</div>
-		<div class="right">
-			<div>
-				<h1>Ciao Search</h1>
+				<h5>You can also search for twitter profiles <br>to analyze someone else</h5>
+				<p>Enter name to search for profiles</p>
 				<span>
 					<form name="formRicerca" method="POST" action ="/progetto/Application">
 						<input type="text" name="userSearch">
@@ -38,6 +39,12 @@
 				</span>
 			</div>
 		</div>
+	
+		
+	</div>
+	<div class="up" style="opacity: 1; height:auto; width:40vw; padding: 2vw; position: absolute; display: block; top: 12vh; left: 28vw">
+		<h4>Twitter Analytics Project <br>(by Giorgio Marzorati & Alessandro Canicatti)</h4>
+		
 	</div>
 </body>
 </html>

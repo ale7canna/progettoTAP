@@ -4,8 +4,10 @@
 <%@page import="twitter4j.User"%>
 <%@page import="twitter4j.AccountSettings"%>
 <%@page import="twitter4j.Twitter"%>
+<%@page import="twitter4j.RateLimitStatus" %>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
+<%@page import="java.util.Map"%>
 <%@page import="connessione.Utente" %>
 <%@page import="connessione.Arco" %>
 <%@page errorPage="error.jsp" %>
@@ -17,7 +19,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>User Information</title>
 <link href="../css/style.css" rel="stylesheet" type="text/css">
+
+
 <script src="../js/jquery-1.11.3.min.js"></script>
+<script src="../js/jquery.qtip.min.js"></script>
+<link href="../css/jquery.qtip.min.css" rel="stylesheet" type="text/css" />
+
 
 	<%! 	
 		
@@ -49,6 +56,7 @@
 			user = (User) session.getAttribute("user");
 		else {
 			user = twitter.showUser(Long.parseLong(userID));
+			session.removeAttribute("listaFollower");
 			
 		}
 			
@@ -68,7 +76,14 @@
 	<div class="container">
 		<div class="up">
 			<div class="center" style="width:100%; height:100%">
-			<a href="/progetto/"><img src="../resources/home.png" width="30px"></a>
+			<table style="margin: auto">
+				<tr>
+					<td style="padding: 0 1vw"><a href="/progetto/"><img src="../resources/home.png" width="30px"></a></td>
+					<td style="padding: 0 1vw"><a href="/progetto/pagine/userinfo.jsp"><img src="../resources/profile.jpg" title="Go to profile information" width="30px"></a></td>
+					<td style="padding: 0 1vw"><a href="#"><img id="limitButton" src="../resources/plus.png" width="30px"></a></td>
+				</tr>
+			</table>
+			
 			</div>
 			
 		</div>
@@ -181,4 +196,48 @@
 		
 	</div>
 </body>
+
+	<% 		String content = "";
+			Map<String ,RateLimitStatus> rateLimitStatus = twitter.getRateLimitStatus();
+			
+			RateLimitStatus status = rateLimitStatus.get("/followers/ids");
+			content = "Follower search: " + String.valueOf(status.getRemaining()) + " Reset time in: " + String.valueOf(status.getSecondsUntilReset()) + "<br>";
+		    
+		    status = rateLimitStatus.get("/followers/list");
+		    content = content + "Follower list: " + String.valueOf(status.getRemaining()) + " Reset time in: " + String.valueOf(status.getSecondsUntilReset()) + "<br>";
+		    
+			status = rateLimitStatus.get("/users/show/:id");
+		    content = content + "User Show: " + String.valueOf(status.getRemaining()) + " Reset time in: " + String.valueOf(status.getSecondsUntilReset()) + "<br>";
+		    
+		    status = rateLimitStatus.get("/users/search");
+		    content = content + "User Search: " + String.valueOf(status.getRemaining()) + " Reset time in: " + String.valueOf(status.getSecondsUntilReset()) + "<br>";
+		%>
+	
+
+
+	<script type="text/javascript">
+		$("#limitButton").qtip({
+			content: '<%=content %>',
+				
+			position: {
+			    my: 'top center',
+			    at: 'bottom center'
+			  },
+			  style: {
+			    classes: 'qtip-bootstrap myQtip',
+			    
+			    tip: {
+			      width: 16,
+			      height: 8
+			    }
+			  },
+			  show: 'click',
+			  hide: {
+	              fixed: true,
+	              delay: 2000
+	          }
+		
+			
+		});
+	</script>
 </html>

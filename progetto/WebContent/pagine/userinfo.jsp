@@ -69,6 +69,18 @@
 		ArrayList<User> listaFollower = new ArrayList<User>();
 	
 	%>
+	
+	<script>
+		function inviaFollower() {
+			var checked = document.querySelectorAll('input[type="checkbox"]:checked');
+			if (checked.length > 0)			
+				formFollower.submit();
+			else
+				alert("Check at least one follower please");
+			
+		}
+	
+	</script>
 
 
 </head>
@@ -76,13 +88,15 @@
 	<div class="container">
 		<div class="up">
 			<div class="center" style="width:100%; height:100%">
-			<table style="margin: auto">
-				<tr>
-					<td style="padding: 0 1vw"><a href="/progetto/"><img src="../resources/home.png" width="30px"></a></td>
-					<td style="padding: 0 1vw"><a href="/progetto/pagine/userinfo.jsp"><img src="../resources/profile.jpg" title="Go to profile information" width="30px"></a></td>
-					<td style="padding: 0 1vw"><a href="#"><img id="limitButton" src="../resources/plus.png" width="30px"></a></td>
-				</tr>
-			</table>
+				<table style="margin: auto">
+					<tr>
+						<td style="padding: 0 1vw"><a href="/progetto/"><img src="../resources/home.png" width="30px"></a></td>
+						<td style="padding: 0 1vw"><a href="/progetto/pagine/userinfo.jsp"><img src="../resources/profile.jpg" title="Go to profile information" width="30px"></a></td>
+						<td style="padding: 0 1vw"><a href="#"><img id="limitButton" src="../resources/limit.png" width="30px"></a></td>
+						<td style="padding: 0 1vw"><a href="https://www.twitter.com/logout">
+							<img src="../resources/logout.png" width="30px"></a></td>
+					</tr>
+				</table>
 			
 			</div>
 			
@@ -108,6 +122,7 @@
 										<ul>
 											<li><a target="_blank" href="http://www.twitter.com/<%=user.getScreenName()%>"><img width="40px" src="../resources/twitter.png"></a>
 											<li><a href="#"><%= user.getName() %></a></li>
+											<li><a href="#"><%= user.getScreenName() %></a></li>
 											<li><a href="#"><%= user.getLocation() %></a></li>										
 											<li><a href="#">Following count <%= user.getFriendsCount() %></a></li>
 											<li><a href="#">Follower count <%= user.getFollowersCount() %></a></li>
@@ -125,11 +140,11 @@
 		<div class="right">
 			<div class="center">
 				<form name="formFollower" method="get" action="follower.jsp">
-					<h2>Selezionare i profili da analizare</h2>
+					<h2>Select followers to analyze. (Max 15 according to twitter's limit)</h2>
 						<table align="center">
 							<tr>
 								<td>
-									<a href="#" class="button" onclick="formFollower.submit()">Invia</a>
+									<a href="#" class="button" onclick="inviaFollower()">Submit</a>
 								</td>
 							</tr>
 						</table>

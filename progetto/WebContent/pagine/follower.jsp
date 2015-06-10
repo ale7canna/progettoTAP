@@ -120,13 +120,15 @@
 	<div class="container">
 		<div class="up">
 			<div class="center" style="width:100%; height:100%">
-			<table style="margin: auto">
-				<tr>
-					<td style="padding: 0 1vw"><a href="/progetto/"><img src="../resources/home.png" width="30px"></a></td>
-					<td style="padding: 0 1vw"><a href="/progetto/pagine/userinfo.jsp"><img src="../resources/profile.jpg" title="Go to profile information" width="30px"></a></td>
-					<td style="padding: 0 1vw"><a href="#"><img id="limitButton" src="../resources/plus.png" width="30px"></a></td>
-				</tr>
-			</table>
+				<table style="margin: auto">
+					<tr>
+						<td style="padding: 0 1vw"><a href="/progetto/"><img src="../resources/home.png" width="30px"></a></td>
+						<td style="padding: 0 1vw"><a href="/progetto/pagine/userinfo.jsp"><img src="../resources/profile.jpg" title="Go to profile information" width="30px"></a></td>
+						<td style="padding: 0 1vw"><a href="#"><img id="limitButton" src="../resources/limit.png" width="30px"></a></td>
+						<td style="padding: 0 1vw"><a href="https://www.twitter.com/logout">
+							<img src="../resources/logout.png" width="30px"></a></td>
+					</tr>
+				</table>
 			
 			</div>
 			
@@ -145,7 +147,7 @@
 								<img src="<%= myUser.getProfileImageURL()%>">
 							</td>
 							<td class="userName">
-								<a href="userinfo.jsp?userID=<%=myUser.getId()%>"><%= myUser.getName() %></a>
+								<a href="http://twitter.com/<%=myUser.getScreenName()%>"><%= myUser.getName() %></a>
 							</td>
 							<td class="userFollowersCountSentence">
 								User followers count:
@@ -194,7 +196,7 @@
 											<img src="<%= u.getProfileImageURL()%>">
 										</td>
 										<td class="userName">
-											<a href="userinfo.jsp?userID=<%= u.getId()%>"><%= u.getName() %></a>
+											<a href="http://twitter.com/<%=u.getScreenName()%>"><%= u.getName() %></a>
 										</td>
 										<td class="userFollowersCountSentence">
 											User followers count:
@@ -239,7 +241,7 @@
 																		<img src="<%= user.getProfileImageURL()%>">
 																	</td>
 																	<td class="userName">
-																		<a href="userinfo.jsp?userID=<%=user.getId()%>"><%= user.getName() %></a>
+																		<a href="http://twitter.com/<%=user.getScreenName()%>"> <%= user.getName() %></a>
 																	</td>
 																	<td class="userFollowersCountSentence">
 																		User followers count:
@@ -335,7 +337,7 @@
 			<% 	for(Utente u: listaUtenti) {
 					
 			%>
-					addNodeToGraph('<%= String.valueOf(u.id) %>', '<%= u.url %>', '<%= u.userName %>', '<%= u.link%>');
+					addNodeToGraph('<%= String.valueOf(u.id) %>', '<%= u.url %>', '<%= u.userName.replace("'", "\\'") %>', '<%= u.link%>');
 			<%
 				}
 			%>
@@ -402,7 +404,7 @@
 			  show: 'click',
 			  hide: {
 	              fixed: true,
-	              delay: 2000
+	              delay: 1300
 	          }
 		
 			

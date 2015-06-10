@@ -34,6 +34,8 @@ public class Callback extends HttpServlet {
 		RequestToken requestToken = (RequestToken) request.getSession().getAttribute("requestToken");
 		Twitter twitter = (Twitter)request.getSession().getAttribute("twitter");
 		
+		request.getSession().setAttribute("verifier", pin);
+		
 		twitter4j.auth.AccessToken accessToken  = null;
 		try {
 			
@@ -47,6 +49,8 @@ public class Callback extends HttpServlet {
 		}
 		
 		request.setAttribute("twitter", twitter);
+
+		
 		long id = accessToken.getUserId();
 		try {
 			request.getSession().setAttribute("user", twitter.showUser(accessToken.getUserId()));

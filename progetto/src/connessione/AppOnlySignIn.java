@@ -1,3 +1,4 @@
+package connessione;
 
 
 import java.io.IOException;
@@ -17,7 +18,7 @@ import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
 
-public class Application extends HttpServlet {
+public class AppOnlySignIn extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 
@@ -29,7 +30,7 @@ public class Application extends HttpServlet {
 	
 
 	
-    public Application() {
+    public AppOnlySignIn() {
         super();
         // TODO Auto-generated constructor stub
     }

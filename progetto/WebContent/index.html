@@ -10,7 +10,7 @@
 
 	function inviaRicerca()
 	{
-		if (document.forms["formRicerca"]["userSearch"].value == "")
+		if (document.forms["formRicerca"]["userSearch"].value == ""|| document.forms["formRicerca"]["userSearch"].value == null)
 			alert("Please insert a valid name");
 		else
 			formRicerca.submit();

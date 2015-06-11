@@ -18,7 +18,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Follower graph</title>
 <link href="../css/style.css" rel="stylesheet" type="text/css">
 	
 
@@ -147,7 +147,7 @@
 								<img src="<%= myUser.getProfileImageURL()%>">
 							</td>
 							<td class="userName">
-								<a href="http://twitter.com/<%=myUser.getScreenName()%>"><%= myUser.getName() %></a>
+								<a target="_blank" href="http://twitter.com/<%=myUser.getScreenName()%>"><%= myUser.getName() %></a>
 							</td>
 							<td class="userFollowersCountSentence">
 								User followers count:
@@ -196,7 +196,7 @@
 											<img src="<%= u.getProfileImageURL()%>">
 										</td>
 										<td class="userName">
-											<a href="http://twitter.com/<%=u.getScreenName()%>"><%= u.getName() %></a>
+											<a target="_blank" href="http://twitter.com/<%=u.getScreenName()%>"><%= u.getName() %></a>
 										</td>
 										<td class="userFollowersCountSentence">
 											User followers count:
@@ -241,7 +241,7 @@
 																		<img src="<%= user.getProfileImageURL()%>">
 																	</td>
 																	<td class="userName">
-																		<a href="http://twitter.com/<%=user.getScreenName()%>"> <%= user.getName() %></a>
+																		<a target="_blank" href="http://twitter.com/<%=user.getScreenName()%>"> <%= user.getName() %></a>
 																	</td>
 																	<td class="userFollowersCountSentence">
 																		User followers count:
@@ -287,7 +287,7 @@
 		</div>
 		
 		<div class="right" style="vertical-align: middle;">
-			<a href="#" class="button" onclick="mostraGrafo()">Mostra il grafo</a>
+			<a href="#" class="button" onclick="mostraGrafo()">Click to see the graph</a>
 			
 		</div>
 	
@@ -297,7 +297,7 @@
 	</div>
 	
 	<div class="overlayHiddenButton">
-		<a href="#" class="button" style="margin: 0;" onclick="mostraGrafo()">Chiudi</a>
+		<a href="#" class="button" style="margin: 0;" onclick="mostraGrafo()">Hide</a>
 	</div>
 	
 

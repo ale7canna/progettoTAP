@@ -101,7 +101,7 @@
 			</div>
 			
 		</div>
-		<div class="left">
+			<div class="left">
 			<div class="center">
 				<table style="margin: auto">
 					<tr>
@@ -120,7 +120,7 @@
 								<tr>
 									<td>
 										<ul>
-											<li><a target="_blank" href="http://www.twitter.com/<%=user.getScreenName()%>"><img width="40px" src="../resources/twitter.png"></a>
+											<li><a target="_blank" href="http://www.twitter.com/<%=user.getScreenName()%>"><img width="40px" title="Go to your twitter profile" src="../resources/twitter.png"></a>
 											<li><a href="#"><%= user.getName() %></a></li>
 											<li><a href="#"><%= user.getScreenName() %></a></li>
 											<li><a href="#"><%= user.getLocation() %></a></li>										
@@ -140,7 +140,9 @@
 		<div class="right">
 			<div class="center">
 				<form name="formFollower" method="get" action="follower.jsp">
-					<h2>Select followers to analyze. (Max 15 according to twitter's limit)</h2>
+					<h2 style=" margin:0 10px">Select followers to analyze.</h2>
+					<h4 style=" margin:0 10px"> (Max 15 according to twitter's limit)</h4>
+					<h5 style=" margin:0 10px 15px 10px">Remember that profiles that are protected can not be checked! </h5>
 						<table align="center">
 							<tr>
 								<td>
@@ -157,9 +159,23 @@
 							{	
 								User u = twitter.showUser(id);
 								
+								
 								if (k % 2 == 0)
+									
 									out.println("<tr>");
-						%>
+									
+									
+									
+									if(u.isProtected()==true){
+										%>
+										
+								<td ><input type="checkbox" disabled="disabled" id="<%= u.getId() %>" name="follower" value="<%= u.getId() %>"></td>		
+								<td><img src="<%= u.getProfileImageURL() %>" ></td>
+								<td> <p class="pNomeUtente" style="display: block"> <%=u.getName()%> </p></td>		
+								<%	}
+									else{
+									%>
+									
 								<td ><input type="checkbox" id="<%= u.getId() %>" name="follower" value="<%= u.getId() %>"></td>
 								<td onclick="$('#<%= u.getId() %>').prop('checked', !$('#<%= u.getId() %>').prop('checked'));"><img src="<%= u.getProfileImageURL() %>" ></td>
 								
@@ -171,6 +187,9 @@
 								
 						
 						<%		
+									} 									
+								
+						
 								if (k % 2 == 1)
 									out.println("</tr>");
 								k++;		
@@ -211,8 +230,8 @@
 		
 	</div>
 </body>
-
-	<% 		String content = "";
+			
+			<% 		String content = "";
 			Map<String ,RateLimitStatus> rateLimitStatus = twitter.getRateLimitStatus();
 			
 			RateLimitStatus status = rateLimitStatus.get("/followers/ids");
@@ -227,9 +246,6 @@
 		    status = rateLimitStatus.get("/users/search");
 		    content = content + "User Search: " + String.valueOf(status.getRemaining()) + " Reset time in: " + String.valueOf(status.getSecondsUntilReset()) + "<br>";
 		%>
-	
-
-
 	<script type="text/javascript">
 		$("#limitButton").qtip({
 			content: '<%=content %>',
@@ -255,4 +271,7 @@
 			
 		});
 	</script>
+
+
+	
 </html>

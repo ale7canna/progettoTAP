@@ -57,7 +57,7 @@ public class SignIn extends HttpServlet {
 		String authUrl = "";
 		try {
 			requestToken = twit.getOAuthRequestToken(callback);
-			authUrl = requestToken.getAuthenticationURL();
+			authUrl = requestToken.getAuthorizationURL()+"&force_login=true";
 						
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block

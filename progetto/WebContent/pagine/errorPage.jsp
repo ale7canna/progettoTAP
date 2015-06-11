@@ -38,6 +38,7 @@
 		Twitter twitter = (Twitter)session.getAttribute("twitter");
 		User me = (User)session.getAttribute("myUser");
 		Throwable e = (Throwable)session.getAttribute("exception");
+		e.printStackTrace();
 	%>
 	
 </head>
@@ -92,7 +93,7 @@
 
 	<% 		
 		String content = "";
-		if (me != null && twitter != null)
+		if (twitter != null)
 		{
 			Map<String ,RateLimitStatus> rateLimitStatus = twitter.getRateLimitStatus();
 			

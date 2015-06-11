@@ -1,3 +1,5 @@
+<%@page import="java.io.Console"%>
+<%@page import="twitter4j.RateLimitStatusListener"%>
 <%@page import="twitter4j.TwitterException"%>
 <%@page import="twitter4j.PagableResponseList"%>
 <%@page import="twitter4j.IDs"%>
@@ -52,22 +54,33 @@
 		
 		String userID = request.getParameter("userID");
 		User user = null;
-		if (userID == null)
-			user = (User) session.getAttribute("user");
+		if (userID == null) 	//Non arrivo dalla ricerca!
+			user = (User) session.getAttribute("user");			
 		else {
 			user = twitter.showUser(Long.parseLong(userID));
+			session.setAttribute("user", user);
 			session.removeAttribute("listaFollower");
-			
+		}	
+		
+		
+		User lastCheckedUser = (User)session.getAttribute("lastUser");
+		if (lastCheckedUser != null) {
+			if (user.getId() != lastCheckedUser.getId())
+				session.removeAttribute("listaFollower");
 		}
-			
-		session.setAttribute("myUser", user);
-		//IDs ids = twitter.getFollowersIDs(user.getId());
-		IDs listaIDs = twitter.getFollowersIDs(user.getId(), -1); // Dopo twitter.showUser();
+		
 		
 		ArrayList<Utente> listaUtenti = new ArrayList<Utente>();
 		ArrayList<Arco> listaArchi = new ArrayList<Arco>();
-		ArrayList<User> listaFollower = new ArrayList<User>();
+		ArrayList<User> listaFollower = (ArrayList<User>)session.getAttribute("listaFollower");
+		
+		IDs listaIDs = null;
+		if (listaFollower == null) {
+			listaFollower = new ArrayList<User>();
+			listaIDs = twitter.getFollowersIDs(user.getId(), -1); // Dopo twitter.showUser();
+		}
 	
+		session.setAttribute("lastUser", user);
 	%>
 	
 	<script>
@@ -101,7 +114,7 @@
 			</div>
 			
 		</div>
-			<div class="left">
+		<div class="left">
 			<div class="center">
 				<table style="margin: auto">
 					<tr>
@@ -154,47 +167,44 @@
 						
 						<table class="users" align="center">
 						<%	
+							if (listaIDs != null)
+							{
+								for (long id: listaIDs.getIDs())
+								listaFollower.add(twitter.showUser(id));
+							}
+						
 							int k = 0;
-							for(long id: listaIDs.getIDs())
+							for(User u: listaFollower)
 							{	
-								User u = twitter.showUser(id);
-								
-								
 								if (k % 2 == 0)
 									
-									out.println("<tr>");
+								out.println("<tr>");
+								if(u.isProtected()==true){
+						%>										
+									<td ><input type="checkbox" disabled="disabled" id="<%= u.getId() %>" name="follower" value="<%= u.getId() %>"></td>		
+									<td><img src="<%= u.getProfileImageURL() %>" ></td>
+									<td> <p class="pNomeUtente" style="display: block"> <%=u.getName()%> </p></td>		
+						<%		}
+								else{
+						%>
 									
+									<td ><input type="checkbox" id="<%= u.getId() %>" name="follower" value="<%= u.getId() %>"></td>
+									<td onclick="$('#<%= u.getId() %>').prop('checked', !$('#<%= u.getId() %>').prop('checked'));"><img src="<%= u.getProfileImageURL() %>" ></td>
 									
-									
-									if(u.isProtected()==true){
-										%>
-										
-								<td ><input type="checkbox" disabled="disabled" id="<%= u.getId() %>" name="follower" value="<%= u.getId() %>"></td>		
-								<td><img src="<%= u.getProfileImageURL() %>" ></td>
-								<td> <p class="pNomeUtente" style="display: block"> <%=u.getName()%> </p></td>		
-								<%	}
-									else{
-									%>
-									
-								<td ><input type="checkbox" id="<%= u.getId() %>" name="follower" value="<%= u.getId() %>"></td>
-								<td onclick="$('#<%= u.getId() %>').prop('checked', !$('#<%= u.getId() %>').prop('checked'));"><img src="<%= u.getProfileImageURL() %>" ></td>
-								
-								<td class="nomeUtente" onclick="$('#<%= u.getId() %>').prop('checked', !$('#<%= u.getId() %>').prop('checked'));">
-									<p class="pNomeUtente" style="display: block">
-										<%=u.getName()%>
-									</p>
-								</td>
+									<td class="nomeUtente" onclick="$('#<%= u.getId() %>').prop('checked', !$('#<%= u.getId() %>').prop('checked'));">
+										<p class="pNomeUtente" style="display: block">
+											<%=u.getName()%>
+										</p>
+									</td>
 								
 						
 						<%		
-									} 									
+								} 									
 								
 						
 								if (k % 2 == 1)
 									out.println("</tr>");
 								k++;		
-								
-								listaFollower.add(u);
 								
 								Utente utente2 = new Utente();
 								utente2.id = u.getId();
@@ -210,7 +220,10 @@
 								
 								aggiungiArco(listaArchi, a);
 								
-								if (k > 160)
+								Map<String ,RateLimitStatus> rateLimitStatus = twitter.getRateLimitStatus();
+								RateLimitStatus status = rateLimitStatus.get("/users/show/:id");
+								System.out.println(status.getRemaining());
+								if (status.getRemaining() == 1)
 									break;
 								
 							}
@@ -264,6 +277,9 @@
 			  },
 			  show: 'click',
 			  hide: {
+				  effect: function(offset) {
+	                  $(this).slideDown(1000); // "this" refers to the tooltip
+	              },
 	              fixed: true,
 	              delay: 2000
 	          }

@@ -43,12 +43,35 @@
 		}
 	
 	
+	function isInputEmpty()
+	{
+		if (document.forms["formRicerca"]["userSearch"].value == "" || document.forms["formRicerca"]["userSearch"].value == null)
+			return true;
+		else
+			return false;
+	}
+
 	function inviaRicerca()
 	{
-		if (document.forms["formRicerca"]["userSearch"].value == "")
+		if (isInputEmpty()) {
 			alert("Please insert a valid name");
+			return false;
+		}
 		else
+		{
+			return true;
+		}
+	}
+	
+	function buttonSearchPressed()
+	{
+		if (isInputEmpty()) {
+			alert("Please insert a valid name");
+		}
+		else {
 			formRicerca.submit();
+		}
+			
 	}
 </script>
 	
@@ -127,9 +150,9 @@
 		
 			<div>
 				<p>Enter name to search for profiles</p>
-				<form method="POST" name="formRicerca" action ="/progetto/AppOnlySignIn">
+				<form method="POST" name="formRicerca" action ="/progetto/AppOnlySignIn" onsubmit="return inviaRicerca()">
 					<input type="text" name="userSearch">
-					<a href="#" class="button" onclick="inviaRicerca()">Search</a>
+					<a href="#" class="button" onclick="buttonSearchPressed()">Search</a>
 				</form>
 			</div>
 		

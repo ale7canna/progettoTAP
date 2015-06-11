@@ -95,7 +95,7 @@
 	
 	
 		Twitter twitter = (Twitter)session.getAttribute("twitter");
-		User myUser = (User)session.getAttribute("myUser");	
+		User myUser = (User)session.getAttribute("user");	
 	
 		String idsRequest[] = request.getParameterValues("follower");
 			

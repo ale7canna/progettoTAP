@@ -54,11 +54,13 @@ public class Callback extends HttpServlet {
 		long id = accessToken.getUserId();
 		try {
 			request.getSession().setAttribute("user", twitter.showUser(accessToken.getUserId()));
+			response.sendRedirect("pagine/userinfo.jsp");
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
+			response.sendRedirect("pagine/error.jsp");
 			e.printStackTrace();
 		}
-		response.sendRedirect("pagine/userinfo.jsp");
+
 		
 		
 	}

@@ -104,7 +104,7 @@
 				<table style="margin: auto">
 					<tr>
 						<td style="padding: 0 1vw"><a href="/progetto/"><img src="../resources/home.png" width="30px"></a></td>
-						<td style="padding: 0 1vw"><a href="/progetto/pagine/userinfo.jsp"><img src="../resources/profile.jpg" title="Go to profile information" width="30px"></a></td>
+						<td style="padding: 0 1vw"><a href="/progetto/pagine/userinfo.jsp"><img src="../resources/profile.jpg" title="Go to last profile information" width="30px"></a></td>
 						<td style="padding: 0 1vw"><a href="#"><img id="limitButton" src="../resources/limit.png" width="30px"></a></td>
 						<td style="padding: 0 1vw"><a href="https://www.twitter.com/logout">
 							<img src="../resources/logout.png" width="30px"></a></td>
@@ -169,8 +169,22 @@
 						<%	
 							if (listaIDs != null)
 							{
-								for (long id: listaIDs.getIDs())
-								listaFollower.add(twitter.showUser(id));
+								Map<String ,RateLimitStatus> rateLimitStatus = twitter.getRateLimitStatus();
+								RateLimitStatus status = rateLimitStatus.get("/users/show/:id");
+								int k = status.getRemaining();
+								
+								for (long id: listaIDs.getIDs()) {
+									try {
+										
+										listaFollower.add(twitter.showUser(id));
+									}
+									catch (Exception e) {System.out.println(id);}
+									
+									System.out.println(k);
+									if (--k == 0)
+										break;
+								}
+								
 							}
 						
 							int k = 0;
@@ -220,11 +234,7 @@
 								
 								aggiungiArco(listaArchi, a);
 								
-								Map<String ,RateLimitStatus> rateLimitStatus = twitter.getRateLimitStatus();
-								RateLimitStatus status = rateLimitStatus.get("/users/show/:id");
-								System.out.println(status.getRemaining());
-								if (status.getRemaining() == 1)
-									break;
+								
 								
 							}
 						%>

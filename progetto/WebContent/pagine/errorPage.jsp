@@ -34,9 +34,7 @@
 
 	
 	<%
-		List<User> result = (List<User>)session.getAttribute("userResult");
 		Twitter twitter = (Twitter)session.getAttribute("twitter");
-		User me = (User)session.getAttribute("myUser");
 		Throwable e = (Throwable)session.getAttribute("exception");
 		e.printStackTrace();
 	%>
@@ -50,7 +48,7 @@
 				<table style="margin: auto">
 					<tr>
 						<td style="padding: 0 1vw"><a href="/progetto/"><img src="../resources/home.png" width="30px"></a></td>
-						<td style="padding: 0 1vw"><a href="/progetto/pagine/userinfo.jsp"><img src="../resources/profile.jpg" title="Go to profile information" width="30px"></a></td>
+						<td style="padding: 0 1vw"><a href="/progetto/pagine/userinfo.jsp"><img src="../resources/profile.jpg" title="Go to last profile information" width="30px"></a></td>
 						<td style="padding: 0 1vw"><a href="#"><img id="limitButton" src="../resources/limit.png" width="30px"></a></td>
 						<td style="padding: 0 1vw"><a href="https://www.twitter.com/logout">
 							<img src="../resources/logout.png" width="30px"></a></td>

@@ -24,6 +24,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>User search</title>
+<link rel="shortcut icon" href="../resources/favicon.ico" type="image/x-icon">
 <link href="../css/style.css" rel="stylesheet" type="text/css">
 
 <script src="../js/jquery-1.11.3.min.js"></script>
@@ -91,8 +92,6 @@
 					<tr>
 						<td style="padding: 0 1vw"><a href="/progetto/"><img src="../resources/home.png" width="30px"></a></td>
 						<td style="padding: 0 1vw"><a href="#"><img id="limitButton" src="../resources/limit.png" width="30px"></a></td>
-						<td style="padding: 0 1vw"><a href="https://www.twitter.com/logout">
-							<img src="../resources/logout.png" width="30px"></a></td>
 					</tr>
 				</table>
 			

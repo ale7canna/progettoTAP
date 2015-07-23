@@ -61,17 +61,21 @@
 		<div class="left" style="width:80vw">
 			<h4>
 				Sorry, the page is not reachable.</h4> <br>
+				<h5>Maybe you have exceed twitter limits. Try to check request availability</h5><br><br>
 				<%	if (e != null)
 					{
 						
 						if (e.getMessage() != null)
 						{
 				%>		
-					<h5><%= 	e.getMessage() %></h5>
+					<h6><%= 	e.getMessage() %></h6>
 				<%			
 					
 						}
+						session.removeAttribute("exception");
 					}
+					
+				
 					if (twitter == null)
 					{
 				%>

@@ -169,7 +169,13 @@
 					
 					<!-- INIZIO FOLLOWER UTENTE AUTENTICATO -->		
 					<%	
-						for(User u:listaFollower){					
+						for(User u:listaFollower){	
+							
+							
+							Map<String ,RateLimitStatus> rateLimitStatus = twitter.getRateLimitStatus();
+							RateLimitStatus status = rateLimitStatus.get("/followers/list");
+							int k = status.getRemaining();	
+							
 					%>		
 							<div class="followersfloor">
 								<table style="padding-left: 50px">
@@ -225,9 +231,12 @@
 					<!-- FINE FOLLOWER UTENTE AUTENTICATO -->			
 								<div class="espandibile">
 														
-									<%		
+									<%	
+										
+										
 										if (isInFollower(u.getId(), idsRequest))
 										{
+											
 											PagableResponseList<User> innerFollowers = twitter.getFollowersList(u.getId(), -1);
 											
 											for(User user:innerFollowers){
@@ -277,7 +286,13 @@
 							
 							
 					<% 	
+						if (--k == 0)
+							break;
+						if (k < 0)
+							response.sendRedirect("error.jsp");
+						
 						}
+						
 					%>
 					
 				</div>

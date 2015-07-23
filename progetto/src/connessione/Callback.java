@@ -57,7 +57,7 @@ public class Callback extends HttpServlet {
 			response.sendRedirect("pagine/userinfo.jsp");
 		} catch (TwitterException e) {
 			// TODO Auto-generated catch block
-			response.sendRedirect("pagine/error.jsp");
+			response.sendRedirect("pagine/errorPage.jsp");
 			e.printStackTrace();
 		}
 

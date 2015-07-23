@@ -46,6 +46,12 @@ public class AppOnlySignIn extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String consumerKey = this.getServletContext().getInitParameter("consumer_key");
+		String consumerSecret = this.getServletContext().getInitParameter("consumer_secret");
+		String accessToken = this.getServletContext().getInitParameter("access_token");
+		String accessTokenSecret = this.getServletContext().getInitParameter("access_token_secret");
+		
+		
 		response.setContentType("text/plain");
 		PrintWriter out = response.getWriter();
 		
@@ -56,10 +62,10 @@ public class AppOnlySignIn extends HttpServlet {
 		callback = callback + "/pagine/ricercautente.jsp";
 		
 		ConfigurationBuilder builder = new ConfigurationBuilder();
-		builder.setOAuthConsumerKey(CONSUMER_KEY);
-		builder.setOAuthConsumerSecret(CONSUMER_SECRET);
-		builder.setOAuthAccessToken(ACCESS_TOKEN);
-		builder.setOAuthAccessTokenSecret(ACCESS_TOKEN_SECRET);
+		builder.setOAuthConsumerKey(consumerKey);
+		builder.setOAuthConsumerSecret(consumerSecret);
+		builder.setOAuthAccessToken(accessToken);
+		builder.setOAuthAccessTokenSecret(accessTokenSecret);
 		
 		
 		Configuration conf = builder.build();

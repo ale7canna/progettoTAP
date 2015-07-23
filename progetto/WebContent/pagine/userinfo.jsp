@@ -182,6 +182,9 @@
 									System.out.println(k);
 									if (--k == 0)
 										break;
+									if (k < 0) {
+										response.sendRedirect("error.jsp");
+									}
 								}
 								
 							}

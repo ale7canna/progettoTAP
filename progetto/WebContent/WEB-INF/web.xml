@@ -37,4 +37,20 @@
   	<exception-type>java.lang.Throwable</exception-type>
   	<location>/pagine/error.jsp</location>
   </error-page>
+  <context-param>
+  	<param-name>consumer_key</param-name>
+  	<param-value>lcG8Dlc7n21QShe0PQPD1zhbV</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>consumer_secret</param-name>
+  	<param-value>BDiIjRmul86mXaGRPnw4utmU2rHnXPoQCHqbuKqmKnteMd0Kad</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>access_token</param-name>
+  	<param-value>1070757523-UCAx3sNj2Ltpy89LMkkzAz0Man5T6bBsRRAbjBG</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>access_token_secret</param-name>
+  	<param-value>ydLwPkZbF5RqNssmr9GsbTCGEPKJx3wKdLcf8KMiQdfq0</param-value>
+  </context-param>
 </web-app>

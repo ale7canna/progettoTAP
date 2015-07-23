@@ -21,15 +21,6 @@ import twitter4j.conf.ConfigurationBuilder;
 public class AppOnlySignIn extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-
-	private final String CONSUMER_KEY = "lcG8Dlc7n21QShe0PQPD1zhbV";
-	private final String CONSUMER_SECRET = "BDiIjRmul86mXaGRPnw4utmU2rHnXPoQCHqbuKqmKnteMd0Kad";
-	private final String ACCESS_TOKEN = "1070757523-UCAx3sNj2Ltpy89LMkkzAz0Man5T6bBsRRAbjBG";
-	private final String ACCESS_TOKEN_SECRET = "ydLwPkZbF5RqNssmr9GsbTCGEPKJx3wKdLcf8KMiQdfq0";
-    
-	
-
-	
     public AppOnlySignIn() {
         super();
         // TODO Auto-generated constructor stub

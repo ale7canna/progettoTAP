@@ -20,11 +20,6 @@ import twitter4j.conf.ConfigurationBuilder;
 
 public class SignIn extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	private final String CONSUMER_KEY = "lcG8Dlc7n21QShe0PQPD1zhbV";
-	private final String CONSUMER_SECRET = "BDiIjRmul86mXaGRPnw4utmU2rHnXPoQCHqbuKqmKnteMd0Kad";
-    
-	
 	
 	public SignIn() {
         super();
@@ -32,7 +27,9 @@ public class SignIn extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		String consumerKey = this.getServletContext().getInitParameter("consumer_key");
+		String consumerSecret = this.getServletContext().getInitParameter("consumer_secret");
+				
 		response.setContentType("text/plain");
 		PrintWriter out = response.getWriter();
 		
@@ -41,12 +38,11 @@ public class SignIn extends HttpServlet {
  
 		callback = callback.substring(0, callback.lastIndexOf('/'));
 		callback = callback + "/Callback";
-		
 				
 		
 		ConfigurationBuilder builder = new ConfigurationBuilder();
-		builder.setOAuthConsumerKey(CONSUMER_KEY);
-		builder.setOAuthConsumerSecret(CONSUMER_SECRET);
+		builder.setOAuthConsumerKey(consumerKey);
+		builder.setOAuthConsumerSecret(consumerSecret);
 		Configuration conf = builder.build();
 		
 		TwitterFactory fact = new TwitterFactory(conf);
